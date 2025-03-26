@@ -58,20 +58,24 @@ class Realm(object):
     def spawn(self):
         ...
 
-    def write(self, *args, pully=True, pullx=True):
-        text, y, x = self.__classify_write_args(args, pully, pullx)
+    def write(self, *args, pully=True, pullx=True, pullyx=False):
+        text, y, x = self.__classify_write_args(args, pully, pullx, pullyx)
         self.realm.addstr(y, x, text)
 
-    def __classify_write_args(self, args, pully, pullx) -> tuple[str, int, int]:
+    def __classify_write_args(self, args, pully, pullx, pullyx) -> tuple[str, int, int]:
 
         # TODO: Create a own exception or find a suitable one
         if len(args) not in (1, 3):
             raise Exception
 
         elif len(args) == 1:
+
             self.cursor.y += 1
             y = self.cursor.y + self.has_border
             x = self.cursor.x + self.has_border
+
+            if not pullx:
+                self.cursor.x = 0
 
         elif len(args) == 3:
 
@@ -86,6 +90,10 @@ class Realm(object):
             if pullx: self.cursor.x = x - self.has_border
 
         text = str(args[0])
+
+        if pullyx:
+            self.cursor.y = y - self.has_border - 1
+            self.cursor.x = x + len(text) + self.has_border
 
         return (text, y, x)
 
