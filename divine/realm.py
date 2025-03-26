@@ -19,12 +19,9 @@ class Realm(object):
         """
 
     def start(self):
-        """ Construct a ready-made screen, the default Terminal is 
+        """ Construct a ready-made realm, the default Terminal is 
             no longer accessible until it is deconstructed
         """
-
-        # Initialize the screen
-        self.screen = curses.initscr()
 
         # Define Default Configurations
         self.__Default_Configurations()
@@ -35,8 +32,8 @@ class Realm(object):
 
         self._Border()
 
-        # Recreate the screen, ready to utilize
-        self.screen = curses.newwin(self.maxy, self.maxx, self.begy, self.begx)
+        # Create the Heaven or Paradise, ready to utilize
+        self.spawn()
 
         # Apply Configurations
         if self.border.all != None:
@@ -45,27 +42,28 @@ class Realm(object):
         self.__draw_border() if self.has_border else self.__erase_border()
 
     def stop(self):
-        """ Deconstruct the screen, restoring the default Terminal
+        """ Deconstruct the realm, restoring the default Terminal
         """
         curses.endwin()
 
     def run(self):
         """ Run the inheritance
         """
-        self.start()
-        self.main()
-        self.stop()
+        ...
+
+    def spawn(self):
+        ...
 
     def __validate_Layout(self):
         # TODO: Create a own exception or find a suitable
         for layout in (self.maxy, self.maxx, self.begy, self.begx):
             if layout < 0:
-                raise Exception 
+                raise Exception
 
     def __Default_Configurations(self):
       # def _Layouts(self):
-            self.maxy, self.maxx = self.screen.getmaxyx()
-            self.begy, self.begx = self.screen.getbegyx()
+            # self.maxy, self.maxx = self.realm.getmaxyx()
+            # self.begy, self.begx = self.realm.getbegyx()
 
       # def _Border(self):
             self.has_border = False
@@ -82,7 +80,7 @@ class Realm(object):
 
     def __draw_border(self):
         # TODO: Make a own border function, the Curses one does not support all characters. (Raises OverflowError)
-        self.screen.border(
+        self.realm.border(
             self.border.left,
             self.border.right,
             self.border.top,
@@ -94,4 +92,4 @@ class Realm(object):
         )
 
     def __erase_border(self):
-        self.screen.border(' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ')
+        self.realm.border(' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ')
