@@ -1,8 +1,12 @@
 import curses
 from box import Box
+from .cursor import Cursor
 
 
 class Realm(object):
+
+    realm: curses.window
+    cursor = Cursor()
 
     def _Layout(self):
         """ Custom layout configurations can be written here. If
@@ -53,6 +57,34 @@ class Realm(object):
 
     def spawn(self):
         ...
+
+    def write(self, *args):
+        text, y, x = self.__classify_write_args(args)
+        self.realm.addstr(y, x, text)
+
+    def __classify_write_args(self, args) -> tuple[str, int, int]:
+
+        # TODO: Create a own exception or find a suitable one
+        if len(args) not in (1, 3):
+            raise Exception
+
+        elif len(args) == 1:
+            y = self.cursor.y + self.has_border
+            x = self.cursor.x + self.has_border
+            self.cursor.y += 1
+
+        elif len(args) == 3:
+
+            # TODO: Create a own exception or find a suitable one
+            if not isinstance(args[1], int) or not isinstance(args[2], int):
+                raise Exception
+            
+            y = args[1]
+            x = args[2]
+        
+        text = str(args[0])
+
+        return (text, y, x)
 
     def __validate_Layout(self):
         # TODO: Create a own exception or find a suitable
