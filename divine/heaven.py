@@ -31,6 +31,8 @@ class Heaven(object):
 
         # Overwrite the Default Configurations if specified
         self._Layout()
+        self.__validate_Layout()
+
         self._Border()
 
         # Recreate the screen, ready to utilize
@@ -53,6 +55,12 @@ class Heaven(object):
         self.start()
         self.main()
         self.stop()
+
+    def __validate_Layout(self):
+        # TODO: Create a own exception or find a suitable
+        for layout in (self.maxy, self.maxx, self.begy, self.begx):
+            if layout < 0:
+                raise Exception 
 
     def __Default_Configurations(self):
       # def _Layouts(self):
