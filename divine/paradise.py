@@ -1,8 +1,11 @@
 import curses
 from .realm import Realm
+from .cursor import Cursor
 
 
 class Paradise(Realm):
+
+    cursor = Cursor()
 
     def run(self):
         self.start()

@@ -1,8 +1,11 @@
 import curses
 from .realm import Realm
+from .cursor import Cursor
 
 
 class Heaven(Realm):
+
+    cursor = Cursor()
 
     def start(self):
         self.realm = curses.initscr()

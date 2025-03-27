@@ -6,7 +6,6 @@ from .cursor import Cursor
 class Realm(object):
 
     realm: curses.window
-    cursor = Cursor()
 
     def _Layout(self):
         """ Custom layout configurations can be written here. If
@@ -36,6 +35,9 @@ class Realm(object):
 
         self._Border()
 
+        self._Layout()
+        self.__validate_Layout()
+
         # Create the Heaven or Paradise, ready to utilize
         self.spawn()
 
@@ -58,11 +60,11 @@ class Realm(object):
     def spawn(self):
         ...
 
-    def write(self, *args, pully=True, pullx=True, pullyx=False):
-        text, y, x = self.__classify_write_args(args, pully, pullx, pullyx)
+    def write(self, *args, pully=True, pullx=True, pullyx=False, reverse=False):
+        text, y, x = self.__classify_write_args(args, pully, pullx, pullyx, reverse)
         self.realm.addstr(y, x, text)
 
-    def __classify_write_args(self, args, pully, pullx, pullyx) -> tuple[str, int, int]:
+    def __classify_write_args(self, args, pully, pullx, pullyx, reverse) -> tuple[str, int, int]:
 
         # TODO: Create a own exception or find a suitable one
         if len(args) not in (1, 3):
@@ -93,7 +95,9 @@ class Realm(object):
 
         if pullyx:
             self.cursor.y = y - self.has_border - 1
-            self.cursor.x = x + len(text) + self.has_border
+            self.cursor.x = x + len(text) - self.has_border
+
+        if reverse: x = self.maxx - len(text) - self.has_border
 
         return (text, y, x)
 
