@@ -147,7 +147,8 @@ class Realm(object):
             self.border.bottom_left  = curses.ACS_LLCORNER
             self.border.bottom_right = curses.ACS_LRCORNER
 
-            self.id = Prodict()
+            # ID will use Box for now. It wasn't usable until commit baf873d83edc7936d288941e24557b71058b9da2
+            self.id = Box()
 
     def __draw_border(self):
         # TODO: Make a own border function, the Curses one does not support all characters. (Raises OverflowError)
