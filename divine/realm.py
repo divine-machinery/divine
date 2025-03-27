@@ -1,5 +1,6 @@
 import curses
 from box import Box
+from prodict import Prodict
 from .cursor import Cursor
 
 
@@ -16,6 +17,9 @@ class Realm(object):
         """ Custom border configurations can be written here. If
             not specified, the default configurations will take over
         """
+
+    def _styles(self):
+        ...
 
     def main(self):
         """ The main application logics can be written here 
@@ -37,6 +41,8 @@ class Realm(object):
 
         self._Layout()
         self.__validate_Layout()
+
+        self._styles()
 
         # Create the Heaven or Paradise, ready to utilize
         self.spawn()
@@ -63,15 +69,15 @@ class Realm(object):
     def spawn(self):
         ...
 
-    def write(self, text, *coordinates, pully=True, pullx=True, pullyx=False, reverse=False):
-        text, y, x = self.__classify_write_args(text, coordinates, pully, pullx, pullyx, reverse)
+    def write(self, text, *coordinates, pully=True, pullx=True, pullyx=False, reverse=False, id=''):
+        text, y, x = self.__classify_write_args(text, coordinates, pully, pullx, pullyx, reverse, id)
         self.realm.addstr(y, x, text)
 
-    def ask(self, question='', *coordinates, pully=True, pullx=True, pullyx=False, reverse=False):
-        self.write(question, *coordinates, pully=pully, pullx=pullx, pullyx=pullyx, reverse=reverse)
+    def ask(self, question='', *coordinates, pully=True, pullx=True, pullyx=False, reverse=False, id=''):
+        self.write(question, *coordinates, pully=pully, pullx=pullx, pullyx=pullyx, reverse=reverse, id=id)
         self.realm.getstr()
 
-    def __classify_write_args(self, text, coordinates, pully, pullx, pullyx, reverse) -> tuple[str, int, int]:
+    def __classify_write_args(self, text, coordinates, pully, pullx, pullyx, reverse, id) -> tuple[str, int, int]:
 
         # TODO: Create a own exception or find a suitable one
         if len(coordinates) not in (0, 2):
@@ -104,6 +110,9 @@ class Realm(object):
 
         if reverse: x = self.maxx - len(text) - self.has_border
 
+        if id in self.id.keys():
+            self.cursor.y += self.id.question.padding.top
+
         return (text, y, x)
 
     def __validate_Layout(self):
@@ -129,6 +138,8 @@ class Realm(object):
             self.border.top_right    = curses.ACS_URCORNER
             self.border.bottom_left  = curses.ACS_LLCORNER
             self.border.bottom_right = curses.ACS_LRCORNER
+
+            self.id = Prodict()
 
     def __draw_border(self):
         # TODO: Make a own border function, the Curses one does not support all characters. (Raises OverflowError)
