@@ -67,10 +67,28 @@ class Realm(object):
         text, y, x = self.__classify_write_args(text, coordinates, pully, pullx, pullyx, reverse)
         self.realm.addstr(y, x, text)
 
-    def ask(self, question='', *coordinates, pully=True, pullx=True, pullyx=False, reverse=False):
-        self.write(question, *coordinates, pully=pully, pullx=pullx, pullyx=pullyx, reverse=reverse)
-        self.realm.getstr()
+    def ask(self, 
+            question='', 
 
+            *coordinates, 
+            pully = True, 
+            pullx = True, 
+            pullyx = False, 
+
+            reverse = False, 
+
+            desired = str, 
+            informative = False
+        ):
+
+        self.write(question, *coordinates, pully=pully, pullx=pullx, pullyx=pullyx, reverse=reverse)
+        answer = self.realm.getstr().decode('utf-8')
+
+        try: answer = (desired(answer)); fullfilled = True
+        except: fullfilled = False
+
+        return answer if not informative else Box({'answer': answer, 'fullfilled': fullfilled})
+  
     def __classify_write_args(self, text, coordinates, pully, pullx, pullyx, reverse) -> tuple[str, int, int]:
 
         # TODO: Create a own exception or find a suitable one
