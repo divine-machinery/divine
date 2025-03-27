@@ -60,17 +60,17 @@ class Realm(object):
     def spawn(self):
         ...
 
-    def write(self, *args, pully=True, pullx=True, pullyx=False, reverse=False):
-        text, y, x = self.__classify_write_args(args, pully, pullx, pullyx, reverse)
+    def write(self, text, *coordinates, pully=True, pullx=True, pullyx=False, reverse=False):
+        text, y, x = self.__classify_write_args(text, coordinates, pully, pullx, pullyx, reverse)
         self.realm.addstr(y, x, text)
 
-    def __classify_write_args(self, args, pully, pullx, pullyx, reverse) -> tuple[str, int, int]:
+    def __classify_write_args(self, text, coordinates, pully, pullx, pullyx, reverse) -> tuple[str, int, int]:
 
         # TODO: Create a own exception or find a suitable one
-        if len(args) not in (1, 3):
+        if len(coordinates) not in (0, 2):
             raise Exception
 
-        elif len(args) == 1:
+        elif len(coordinates) == 0:
 
             self.cursor.y += 1
             y = self.cursor.y + self.has_border
@@ -79,19 +79,17 @@ class Realm(object):
             if not pullx:
                 self.cursor.x = 0
 
-        elif len(args) == 3:
+        elif len(coordinates) == 2:
 
             # TODO: Create a own exception or find a suitable one
-            if not isinstance(args[1], int) or not isinstance(args[2], int):
+            if not isinstance(coordinates[0], int) or not isinstance(coordinates[1], int):
                 raise Exception
 
-            y = args[1] + self.has_border
-            x = args[2] + self.has_border
+            y = coordinates[0] + self.has_border
+            x = coordinates[1] + self.has_border
 
             if pully: self.cursor.y = y - self.has_border
             if pullx: self.cursor.x = x - self.has_border
-
-        text = str(args[0])
 
         if pullyx:
             self.cursor.y = y - self.has_border - 1
