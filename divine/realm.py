@@ -41,6 +41,9 @@ class Realm(object):
         # Create the Heaven or Paradise, ready to utilize
         self.spawn()
 
+        # Echo mode enabled for ask method
+        curses.echo()
+
         # Apply Configurations
         if self.border.all != None:
             for border_ch in self.border:
@@ -63,6 +66,10 @@ class Realm(object):
     def write(self, text, *coordinates, pully=True, pullx=True, pullyx=False, reverse=False):
         text, y, x = self.__classify_write_args(text, coordinates, pully, pullx, pullyx, reverse)
         self.realm.addstr(y, x, text)
+
+    def ask(self, question='', *coordinates, pully=True, pullx=True, pullyx=False, reverse=False):
+        self.write(question, *coordinates, pully=pully, pullx=pullx, pullyx=pullyx, reverse=reverse)
+        self.realm.getstr()
 
     def __classify_write_args(self, text, coordinates, pully, pullx, pullyx, reverse) -> tuple[str, int, int]:
 
