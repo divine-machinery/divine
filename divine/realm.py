@@ -113,10 +113,16 @@ class Realm(object):
         # Apply internal-stylings
         if id in self.id.keys():
             # Padding Top
-            y += self.id.question.padding.top 
+            y += self.id[id].padding.top 
 
             # Padding Bottom
-            self.cursor.y += self.id.question.padding.bottom + 1 # Add 1 because the default bottom starts from 1
+            self.cursor.y += self.id[id].padding.bottom  + 1 # Add 1 because the default bottom starts from 1
+
+            # Padding Left
+            text = " " * self.id[id].padding.left + text
+
+            # Padding Right
+            text = text + " " * self.id[id].padding.right
 
         return (text, y, x)
 
