@@ -18,3 +18,11 @@ class Heaven(Realm):
     
     def spawn(self):
         self.realm = curses.newwin(self.maxy, self.maxx, self.begy, self.begx)
+
+    def Default_Configurations(self):
+
+      # def _Layouts(self):
+            self.maxy, self.maxx = self.realm.getmaxyx()
+            self.begy, self.begx = self.realm.getbegyx()
+        
+            return super().Default_Configurations()

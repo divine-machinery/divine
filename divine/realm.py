@@ -31,7 +31,7 @@ class Realm(object):
         """
 
         # Define Default Configurations
-        self.__Default_Configurations()
+        self.Default_Configurations()
 
         # Overwrite the Default Configurations if specified
         self._Layout()
@@ -121,10 +121,7 @@ class Realm(object):
             if layout < 0:
                 raise Exception
 
-    def __Default_Configurations(self):
-      # def _Layouts(self):
-            # self.maxy, self.maxx = self.realm.getmaxyx()
-            # self.begy, self.begx = self.realm.getbegyx()
+    def Default_Configurations(self):
 
       # def _Border(self):
             self.has_border = False
