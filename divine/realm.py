@@ -110,8 +110,13 @@ class Realm(object):
 
         if reverse: x = self.maxx - len(text) - self.has_border
 
+        # Apply internal-stylings
         if id in self.id.keys():
-            self.cursor.y += self.id.question.padding.top
+            # Padding Top
+            y += self.id.question.padding.top 
+
+            # Padding Bottom
+            self.cursor.y += self.id.question.padding.bottom + 1 # Add 1 because the default bottom starts from 1
 
         return (text, y, x)
 
