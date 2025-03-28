@@ -63,23 +63,17 @@ class Realm(object):
     def spawn(self):
         ...
 
-    def write(self, text, *coordinates, pully=True, pullx=True, pullyx=False, reverse=False):
-        text, y, x = self.__classify_write_args(text, coordinates, pully, pullx, pullyx, reverse)
-        self.realm.addstr(y, x, text)
-
-    def ask(self, 
-            question='', 
-
-            *coordinates, 
-            pully = True, 
-            pullx = True, 
-            pullyx = False, 
-
-            reverse = False, 
-
-            desired = str, 
-            informative = False
-        ):
+    def ask(
+        self, 
+        question = '', 
+        *coordinates, 
+        pully = True, 
+        pullx = True, 
+        pullyx = False, 
+        reverse = False, 
+        desired = str, 
+        informative = False
+    ):
 
         self.write(question, *coordinates, pully=pully, pullx=pullx, pullyx=pullyx, reverse=reverse)
         answer = self.realm.getstr().decode('utf-8')
@@ -88,41 +82,6 @@ class Realm(object):
         except: fullfilled = False
 
         return answer if not informative else Box({'answer': answer, 'fullfilled': fullfilled})
-  
-    def __classify_write_args(self, text, coordinates, pully, pullx, pullyx, reverse) -> tuple[str, int, int]:
-
-        # TODO: Create a own exception or find a suitable one
-        if len(coordinates) not in (0, 2):
-            raise Exception
-
-        elif len(coordinates) == 0:
-
-            self.cursor.y += 1
-            y = self.cursor.y + self.has_border
-            x = self.cursor.x + self.has_border
-
-            if not pullx:
-                self.cursor.x = 0
-
-        elif len(coordinates) == 2:
-
-            # TODO: Create a own exception or find a suitable one
-            if not isinstance(coordinates[0], int) or not isinstance(coordinates[1], int):
-                raise Exception
-
-            y = coordinates[0] + self.has_border
-            x = coordinates[1] + self.has_border
-
-            if pully: self.cursor.y = y - self.has_border
-            if pullx: self.cursor.x = x - self.has_border
-
-        if pullyx:
-            self.cursor.y = y - self.has_border - 1
-            self.cursor.x = x + len(text) - self.has_border
-
-        if reverse: x = self.maxx - len(text) - self.has_border
-
-        return (text, y, x)
 
     def __validate_Layout(self):
         # TODO: Create a own exception or find a suitable
