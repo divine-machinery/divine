@@ -7,6 +7,7 @@ from .cursor import Cursor
 class Realm(object):
 
     realm: curses.window
+    cursor: Cursor
 
     def _Layout(self):
         """ Custom layout configurations can be written here. If
@@ -69,17 +70,12 @@ class Realm(object):
     def spawn(self):
         ...
 
-    def write(self, text, *coordinates, pully=True, pullx=True, pullyx=False, reverse=False, id=''):
-        text, y, x = self.__classify_write_args(text, coordinates, pully, pullx, pullyx, reverse, id)
-        self.realm.addstr(y, x, text)
-
     def ask(self, question='', *coordinates, pully=True, pullx=True, pullyx=False, reverse=False, id=''):
         self.write(question, *coordinates, pully=pully, pullx=pullx, pullyx=pullyx, reverse=reverse, id=id)
         self.realm.getstr()
 
-    def __classify_write_args(self, text, coordinates, pully, pullx, pullyx, reverse, id) -> tuple[str, int, int]:
+    def write(self, text, *coordinates, pully=True, pullx=True, pullyx=False, reverse=False, id=''):
 
-        # TODO: Create a own exception or find a suitable one
         if len(coordinates) not in (0, 2):
             raise Exception
 
@@ -89,52 +85,68 @@ class Realm(object):
             y = self.cursor.y + self.has_border
             x = self.cursor.x + self.has_border
 
-            if not pullx:
-                self.cursor.x = 0
-
         elif len(coordinates) == 2:
 
-            # TODO: Create a own exception or find a suitable one
             if not isinstance(coordinates[0], int) or not isinstance(coordinates[1], int):
                 raise Exception
 
             y = coordinates[0] + self.has_border
             x = coordinates[1] + self.has_border
 
-        if pully: self.cursor.y = y - self.has_border
-        if pullx: self.cursor.x = x - self.has_border
+        # -----------------------------------------------------------------
+
+        def update_cursor(axis):
+            match axis:
+                case 'y': self.cursor.y = y - self.has_border
+                case 'x': self.cursor.x = x - self.has_border
+                case _: raise Exception
+
+        def id_has_property(property) -> bool:
+            match property:
+                case 'padding': return 'padding' in self.id[id].keys()
+
+        def padding_has_property(property) -> bool:
+            match property:
+                case 'top': return 'top' in self.id[id].padding.keys()
+                case 'bottom': return 'bottom' in self.id[id].padding.keys()
+                case 'left': return 'left' in self.id[id].padding.keys()
+                case 'right': return 'right' in self.id[id].padding.keys()
+
+        # -----------------------------------------------------------------
+
+        if pully: update_cursor('y')
+        if pullx: update_cursor('x')
+        if not pullx: self.cursor.reset('x') # Reset to 0
 
         # Apply internal-stylings
         if id in self.id.keys():
-            if 'padding' in self.id[id].keys():
-                if 'top' in self.id[id].padding.keys():             # Padding Top
+            if id_has_property('padding'):
+                # NOTE <--------------------------------------- !!!
+                # If the property is only changing axis but not
+                # cursor, the cursor is specifically need to update 
 
-                    # Apply the style
+                if padding_has_property('top'):                          # Padding Top
                     y += self.id[id].padding.top
+                    update_cursor('y')
 
-                    # Update the cursor
-                    # TODO: This looks very ugly, need a lot of refinements
-                    if pully: self.cursor.y = y - self.has_border
-
-
-                if 'bottom' in self.id[id].padding.keys():          # Padding Bottom
+                if padding_has_property('bottom'):                       # Padding Bottom
                     self.cursor.y += self.id[id].padding.bottom
 
-
-                if 'left' in self.id[id].padding.keys():            # Padding Left
+                if padding_has_property('left'):                         # Padding Left
                     text = " " * self.id[id].padding.left + text
 
-
-                if 'right' in self.id[id].padding.keys():           # Padding Right
+                if padding_has_property('right'):                        # Padding Right
                     text = text + " " * self.id[id].padding.right
 
+        # Apply inline-stylings
         if pullyx:
             self.cursor.y = y - self.has_border - 1
             self.cursor.x = x + len(text) - self.has_border
 
         if reverse: x = self.maxx - len(text) - self.has_border
 
-        return (text, y, x)
+        # AND FINALLY, Write the text :>
+        self.realm.addstr(y, x, text)
 
     def __validate_Layout(self):
         # TODO: Create a own exception or find a suitable
