@@ -7,5 +7,5 @@ class Cursor(object):
 
     def reset(self, axis):
         match axis:
-            case 'y': self.y = 0
+            case 'y': self.y = -1
             case 'x': self.x = 0
