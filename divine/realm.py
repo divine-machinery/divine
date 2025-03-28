@@ -101,28 +101,38 @@ class Realm(object):
             y = coordinates[0] + self.has_border
             x = coordinates[1] + self.has_border
 
-            if pully: self.cursor.y = y - self.has_border
-            if pullx: self.cursor.x = x - self.has_border
+        if pully: self.cursor.y = y - self.has_border
+        if pullx: self.cursor.x = x - self.has_border
+
+        # Apply internal-stylings
+        if id in self.id.keys():
+            if 'padding' in self.id[id].keys():
+                if 'top' in self.id[id].padding.keys():             # Padding Top
+
+                    # Apply the style
+                    y += self.id[id].padding.top
+
+                    # Update the cursor
+                    # TODO: This looks very ugly, need a lot of refinements
+                    if pully: self.cursor.y = y - self.has_border
+
+
+                if 'bottom' in self.id[id].padding.keys():          # Padding Bottom
+                    self.cursor.y += self.id[id].padding.bottom
+
+
+                if 'left' in self.id[id].padding.keys():            # Padding Left
+                    text = " " * self.id[id].padding.left + text
+
+
+                if 'right' in self.id[id].padding.keys():           # Padding Right
+                    text = text + " " * self.id[id].padding.right
 
         if pullyx:
             self.cursor.y = y - self.has_border - 1
             self.cursor.x = x + len(text) - self.has_border
 
         if reverse: x = self.maxx - len(text) - self.has_border
-
-        # Apply internal-stylings
-        if id in self.id.keys():
-            # Padding Top
-            y += self.id[id].padding.top 
-
-            # Padding Bottom
-            self.cursor.y += self.id[id].padding.bottom  + 1 # Add 1 because the default bottom starts from 1
-
-            # Padding Left
-            text = " " * self.id[id].padding.left + text
-
-            # Padding Right
-            text = text + " " * self.id[id].padding.right
 
         return (text, y, x)
 
