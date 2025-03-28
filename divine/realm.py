@@ -144,6 +144,27 @@ class Realm(object):
         # AND FINALLY, Write the text :>
         self.realm.addstr(y, x, text)
 
+    def ask(
+        self, 
+        question = '', 
+        *coordinates, 
+        pully = True, 
+        pullx = True, 
+        pullyx = False, 
+        reverse = False, 
+        desired = str, 
+        informative = False
+    ):
+
+        self.write(question, *coordinates, pully=pully, pullx=pullx, pullyx=pullyx, reverse=reverse)
+        answer = self.realm.getstr().decode('utf-8')
+
+        try: answer = (desired(answer)); fullfilled = True
+        except: fullfilled = False
+
+        return answer if not informative else Box({'answer': answer, 'fullfilled': fullfilled})
+
+
     def __validate_Layout(self):
         # TODO: Create a own exception or find a suitable
         for layout in (self.maxy, self.maxx, self.begy, self.begx):
