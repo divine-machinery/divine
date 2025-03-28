@@ -70,7 +70,16 @@ class Realm(object):
     def spawn(self):
         ...
 
-    def write(self, text, *coordinates, pully=True, pullx=True, pullyx=False, reverse=False, id=''):
+    def write(
+        self, 
+        text = '', 
+        *coordinates, 
+        pully = True, 
+        pullx = True, 
+        pullyx = False, 
+        reverse = False, 
+        id = ''
+    ):
 
         if len(coordinates) not in (0, 2):
             raise Exception
@@ -153,10 +162,11 @@ class Realm(object):
         pullyx = False, 
         reverse = False, 
         desired = str, 
-        informative = False
+        informative = False,
+        id = ''
     ):
 
-        self.write(question, *coordinates, pully=pully, pullx=pullx, pullyx=pullyx, reverse=reverse)
+        self.write(question, *coordinates, pully=pully, pullx=pullx, pullyx=pullyx, reverse=reverse, id=id)
         answer = self.realm.getstr().decode('utf-8')
 
         try: answer = (desired(answer)); fullfilled = True
