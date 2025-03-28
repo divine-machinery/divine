@@ -70,10 +70,6 @@ class Realm(object):
     def spawn(self):
         ...
 
-    def ask(self, question='', *coordinates, pully=True, pullx=True, pullyx=False, reverse=False, id=''):
-        self.write(question, *coordinates, pully=pully, pullx=pullx, pullyx=pullyx, reverse=reverse, id=id)
-        self.realm.getstr()
-
     def write(self, text, *coordinates, pully=True, pullx=True, pullyx=False, reverse=False, id=''):
 
         if len(coordinates) not in (0, 2):
@@ -103,14 +99,14 @@ class Realm(object):
 
         def id_has_property(property) -> bool:
             match property:
-                case 'padding': return 'padding' in self.id[id].keys()
+                case 'padding':     return 'padding'    in self.id[id].keys()
 
         def padding_has_property(property) -> bool:
             match property:
-                case 'top': return 'top' in self.id[id].padding.keys()
-                case 'bottom': return 'bottom' in self.id[id].padding.keys()
-                case 'left': return 'left' in self.id[id].padding.keys()
-                case 'right': return 'right' in self.id[id].padding.keys()
+                case 'top':         return 'top'        in self.id[id].padding.keys()
+                case 'bottom':      return 'bottom'     in self.id[id].padding.keys()
+                case 'left':        return 'left'       in self.id[id].padding.keys()
+                case 'right':       return 'right'      in self.id[id].padding.keys()
 
         # -----------------------------------------------------------------
 
