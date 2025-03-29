@@ -205,12 +205,16 @@ class Realm(object):
         pullx = True, 
         pullyx = False, 
         reverse = False, 
+        top = 0,
+        bottom = 0,
+        left = 0,
+        right = 0,
         desired = str, 
         informative = False,
         tag = ''
     ):
 
-        self.write(question, *coordinates, pully=pully, pullx=pullx, pullyx=pullyx, reverse=reverse, tag=tag)
+        self.write(question, *coordinates, pully=pully, pullx=pullx, pullyx=pullyx, reverse=reverse, top=top, bottom=bottom, left=left, right=right, tag=tag)
         answer = self.realm.getstr().decode('utf-8')
 
         try: answer = (desired(answer)); fullfilled = True
