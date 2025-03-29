@@ -161,6 +161,7 @@ class Realm(object):
 
         # AND FINALLY, Write the text :>
         self.realm.addstr(y, x, text)
+        self.refresh()
 
     def ask(
         self, 
