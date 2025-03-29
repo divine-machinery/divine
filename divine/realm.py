@@ -66,12 +66,19 @@ class Realm(object):
         ...
 
     def spawn(self):
+        """ Spawn a Realm according to Layouts
+        """
         ...
 
     def refresh(self):
+        """ Update the Realm outputs
+        """
         self.realm.refresh()
 
     def reset(self):
+        """ Clear the Realm outputs.
+            Reset the cursors
+        """
         self.realm.clear()
         self.cursor.reset('x')
         self.cursor.reset('y')
