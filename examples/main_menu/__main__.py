@@ -27,46 +27,50 @@ class _MainMenu(Heaven):
         def draw_menu(menu):
             self.write()
             for index, item in enumerate(menu):
-                self.write(f"{index}.{item}", id='menu_item')
+                self.write(f"{index}.{item}", tag='menu_item')
 
         while True:
-            self.write("> examples/main_menu.py", id='filepath')
-            self.write("Hello, World! Welcome Human!", id='welcoming_message')
+            self.write("> examples/main_menu.py", tag='filepath norm_text')
+            self.write("Hello, World! Welcome Human!", tag='welcoming_message')
             draw_menu(self.menu)
 
-            guess = self.ask("> Enter your guess(0/1/2/3): ", desired=int, informative=True, id='question', pullx=False)
+            guess = self.ask("> Enter your guess(0/1/2/3): ", desired=int, informative=True, tag='question', pullx=False)
 
             if guess.fullfilled and guess.answer in (0, 1, 2, 3):
-                self.write("│ Oh okay...", id='farewell')
+                self.write("│ Oh okay...", tag='farewell norm_text')
                 self.write("│ Just remember. I always loved you<3")
-                self.write("│ Exiting..", id='log')
+                self.write("│ Exiting..", tag='log')
                 time.sleep(3)
                 break
         
             self.reset()
 
     def _styles(self):
-        self.id.filepath = {
+        self.tag.norm_text = {
             'padding': {
                 'left': 2,
+            }
+        }
+
+        self.tag.filepath = {
+            'padding': {
                 'top': 1,
             }
         }
 
-        self.id.question = {
+        self.tag.question = {
             'padding': {
                 'top': 2,
             }
         }
 
-        self.id.farewell = {
+        self.tag.farewell = {
             'padding': {
                 'top': 1,
-                'left': 2,
             }
         }
 
-        self.id.log = {
+        self.tag.log = {
             'padding': {
                 'top': 1,
             }

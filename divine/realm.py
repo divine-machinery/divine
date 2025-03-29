@@ -92,7 +92,7 @@ class Realm(object):
         pullx = True, 
         pullyx = False, 
         reverse = False, 
-        id = ''
+        tag = ''
     ):
 
         if len(coordinates) not in (0, 2):
@@ -122,35 +122,39 @@ class Realm(object):
 
         def id_has_property(property) -> bool:
             match property:
-                case 'padding':     return 'padding'    in self.id[id].keys()
+                case 'padding':     return 'padding'    in self.tag[tag].keys()
 
         def padding_has_property(property) -> bool:
             match property:
-                case 'top':         return 'top'        in self.id[id].padding.keys()
-                case 'bottom':      return 'bottom'     in self.id[id].padding.keys()
-                case 'left':        return 'left'       in self.id[id].padding.keys()
-                case 'right':       return 'right'      in self.id[id].padding.keys()
+                case 'top':         return 'top'        in self.tag[tag].padding.keys()
+                case 'bottom':      return 'bottom'     in self.tag[tag].padding.keys()
+                case 'left':        return 'left'       in self.tag[tag].padding.keys()
+                case 'right':       return 'right'      in self.tag[tag].padding.keys()
 
         # -----------------------------------------------------------------
 
         # Apply internal-stylings
-        if id in self.id.keys():
-            if id_has_property('padding'):
-                # NOTE <--------------------------------------- !!!
-                # If the property is only changing axis but not
-                # cursor, the cursor is specifically need to update 
 
-                if padding_has_property('top'):                          # Padding Top
-                    y += self.id[id].padding.top
+        tags = tag.split()
 
-                if padding_has_property('bottom'):                       # Padding Bottom
-                    self.cursor.y += self.id[id].padding.bottom
+        for tag in tags:
+            if tag in self.tag.keys():
+                if id_has_property('padding'):
+                    # NOTE <--------------------------------------- !!!
+                    # If the property is only changing axis but not
+                    # cursor, the cursor is specifically need to update 
 
-                if padding_has_property('left'):                         # Padding Left
-                    x += self.id[id].padding.left
+                    if padding_has_property('top'):                          # Padding Top
+                        y += self.tag[tag].padding.top
 
-                if padding_has_property('right'):                        # Padding Right
-                    text = text + " " * self.id[id].padding.right
+                    if padding_has_property('bottom'):                       # Padding Bottom
+                        self.cursor.y += self.tag[tag].padding.bottom
+
+                    if padding_has_property('left'):                         # Padding Left
+                        x += self.tag[tag].padding.left
+
+                    if padding_has_property('right'):                        # Padding Right
+                        text = text + " " * self.tag[tag].padding.right
 
         # Update cursor
         if pully: update_cursor('y')
@@ -178,10 +182,10 @@ class Realm(object):
         reverse = False, 
         desired = str, 
         informative = False,
-        id = ''
+        tag = ''
     ):
 
-        self.write(question, *coordinates, pully=pully, pullx=pullx, pullyx=pullyx, reverse=reverse, id=id)
+        self.write(question, *coordinates, pully=pully, pullx=pullx, pullyx=pullyx, reverse=reverse, tag=tag)
         answer = self.realm.getstr().decode('utf-8')
 
         try: answer = (desired(answer)); fullfilled = True
@@ -211,8 +215,8 @@ class Realm(object):
             self.border.bottom_left  = curses.ACS_LLCORNER
             self.border.bottom_right = curses.ACS_LRCORNER
 
-            # ID will use Box for now. It wasn't usable until commit baf873d83edc7936d288941e24557b71058b9da2
-            self.id = Box()
+            # tag will use Box for now. It wasn't usable until commit baf873d83edc7936d288941e24557b71058b9da2
+            self.tag = Box()
 
     def __draw_border(self):
         # TODO: Make a own border function, the Curses one does not support all characters. (Raises OverflowError)
