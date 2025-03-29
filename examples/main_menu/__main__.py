@@ -38,13 +38,11 @@ class _MainMenu(Heaven):
                 self.write("Oh okay...", id='farewell')
                 self.write("Just remember. I always loved you<3", id='farewell')
                 self.write("Exiting..", id='log')
-                self.realm.refresh()
+                self.refresh()
                 time.sleep(3)
                 break
         
-            self.realm.clear()
-            self.cursor.reset('x')
-            self.cursor.reset('y')
+            self.reset()
 
     def _styles(self):
         self.id.filepath = {
