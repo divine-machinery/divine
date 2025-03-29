@@ -70,6 +70,15 @@ class Realm(object):
     def spawn(self):
         ...
 
+    def refresh(self):
+        self.realm.refresh()
+
+    def reset(self):
+        self.realm.clear()
+        self.cursor.reset('x')
+        self.cursor.reset('y')
+        self.refresh()
+
     def write(
         self, 
         text = '', 
