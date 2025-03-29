@@ -118,6 +118,13 @@ class Realm(object):
 
         # -----------------------------------------------------------------
 
+        def inline_styled(property):
+            match property:
+                case 'top': return top != 0
+                case 'bottom': return bottom != 0
+                case 'left': return left != 0
+                case 'right': return right != 0
+
         def update_cursor(axis):
             match axis:
                 case 'y': self.cursor.y = y - self.has_border
@@ -133,36 +140,58 @@ class Realm(object):
 
         # -----------------------------------------------------------------
 
-        # Apply internal-stylings
+        # Update cursor
+        if pully: update_cursor('y')
+        if pullx: update_cursor('x')
+        if not pullx: self.cursor.reset('x') # Reset to 0
+
+        # -----------------------------------------------------------------
 
         tags = tag.split()
 
+        # Apply internal-stylings for each tags
         for tag in tags:
             if tag in self.tag.keys():
                 # NOTE <--------------------------------------- !!!
                 # If the property is only changing axis but not
                 # cursor, the cursor is specifically need to update 
-                if id_has_property('top'): y += self.tag[tag]['top']
-                if id_has_property('bottom'): self.cursor.y += self.tag[tag]['bottom']
-                if id_has_property('left'): x += self.tag[tag]['left']
-                if id_has_property('right'): text = text + " " * self.tag[tag]['right']
+                if id_has_property('top') and not inline_styled('top'): 
+                    y += self.tag[tag]['top']
+                    update_cursor('y')
 
+                if id_has_property('bottom') and not inline_styled('bottom'): 
+                    self.cursor.y += self.tag[tag]['bottom']
+
+                if id_has_property('left') and not inline_styled('left'): 
+                    x += self.tag[tag]['left']
+                    update_cursor('x')
+
+                if id_has_property('right') and not inline_styled('right'): 
+                    text = text + " " * self.tag[tag]['right']
+
+        # -----------------------------------------------------------------
+        
         # Apply inline-stylings
+
         if pullyx:
             self.cursor.y = y - self.has_border - 1
             self.cursor.x = x + len(text) - self.has_border
 
         if reverse: x = self.maxx - len(text) - self.has_border
 
-        y += top
-        self.cursor.y += bottom
-        x += left
-        text = text + " " * right
+        if inline_styled('top'):
+            y += top
+            update_cursor('y')
 
-        # Update cursor for next write
-        if pully: update_cursor('y')
-        if pullx: update_cursor('x')
-        if not pullx: self.cursor.reset('x') # Reset to 0
+        if inline_styled('bottom'):
+            self.cursor.y += bottom
+            update_cursor('x')
+
+        if inline_styled('left'):
+            x += left
+
+        if inline_styled('trightop'):
+            text = text + " " * right
 
         # AND FINALLY, Write the text :>
         self.realm.addstr(y, x, text)
