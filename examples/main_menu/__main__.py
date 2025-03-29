@@ -47,23 +47,23 @@ class _MainMenu(Heaven):
 
     def _styles(self):
         self.tag.norm_text = {
-            'padding-left': 2,
+            'left': 2,
         }
 
         self.tag.filepath = {
-            'padding-top': 1,
+            'top': 1,
         }
 
         self.tag.question = {
-            'padding-top': 2,
+            'top': 2,
         }
 
         self.tag.farewell = {
-            'padding-top': 1,
+            'top': 1,
         }
 
         self.tag.log = {
-            'padding-top': 1,
+            'top': 1,
         }
 
 MainMenu = _MainMenu()

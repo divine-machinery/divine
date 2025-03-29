@@ -122,10 +122,10 @@ class Realm(object):
 
         def id_has_property(property) -> bool:
             match property:
-                case 'padding-top':         return 'padding-top'        in self.tag[tag].keys()
-                case 'padding-bottom':      return 'padding-bottom'     in self.tag[tag].keys()
-                case 'padding-left':        return 'padding-left'       in self.tag[tag].keys()
-                case 'padding-right':       return 'padding-right'      in self.tag[tag].keys()
+                case 'top':         return 'top'        in self.tag[tag].keys()
+                case 'bottom':      return 'bottom'     in self.tag[tag].keys()
+                case 'left':        return 'left'       in self.tag[tag].keys()
+                case 'right':       return 'right'      in self.tag[tag].keys()
 
         # -----------------------------------------------------------------
 
@@ -138,10 +138,10 @@ class Realm(object):
                 # NOTE <--------------------------------------- !!!
                 # If the property is only changing axis but not
                 # cursor, the cursor is specifically need to update 
-                if id_has_property('padding-top'): y += self.tag[tag]['padding-top']
-                if id_has_property('padding-bottom'): self.cursor.y += self.tag[tag]['padding-bottom']
-                if id_has_property('padding-left'): x += self.tag[tag]['padding-left']
-                if id_has_property('padding-right'): text = text + " " * self.tag[tag]['padding-right']
+                if id_has_property('top'): y += self.tag[tag]['top']
+                if id_has_property('bottom'): self.cursor.y += self.tag[tag]['bottom']
+                if id_has_property('left'): x += self.tag[tag]['left']
+                if id_has_property('right'): text = text + " " * self.tag[tag]['right']
 
         # Update cursor
         if pully: update_cursor('y')
