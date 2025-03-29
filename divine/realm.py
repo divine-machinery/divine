@@ -92,6 +92,10 @@ class Realm(object):
         pullx = True, 
         pullyx = False, 
         reverse = False, 
+        top = 0,
+        bottom = 0,
+        left = 0,
+        right = 0,
         tag = ''
     ):
 
@@ -143,17 +147,22 @@ class Realm(object):
                 if id_has_property('left'): x += self.tag[tag]['left']
                 if id_has_property('right'): text = text + " " * self.tag[tag]['right']
 
-        # Update cursor
-        if pully: update_cursor('y')
-        if pullx: update_cursor('x')
-        if not pullx: self.cursor.reset('x') # Reset to 0
-
         # Apply inline-stylings
         if pullyx:
             self.cursor.y = y - self.has_border - 1
             self.cursor.x = x + len(text) - self.has_border
 
         if reverse: x = self.maxx - len(text) - self.has_border
+
+        y += top
+        self.cursor.y += bottom
+        x += left
+        text = text + " " * right
+
+        # Update cursor for next write
+        if pully: update_cursor('y')
+        if pullx: update_cursor('x')
+        if not pullx: self.cursor.reset('x') # Reset to 0
 
         # AND FINALLY, Write the text :>
         self.realm.addstr(y, x, text)
