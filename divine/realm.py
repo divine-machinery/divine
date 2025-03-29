@@ -31,18 +31,16 @@ class Realm(object):
             no longer accessible until it is deconstructed
         """
 
-        # Define Default Configurations
+        # Define Default Configurations(not immediately used)
         self.Default_Configurations()
 
         # Overwrite the Default Configurations if specified
-        self._Layout()
-        self.__validate_Layout()
-
         self._Border()
 
         self._Layout()
         self.__validate_Layout()
 
+        # Define Internal Stylings(not immediately used)
         self._styles()
 
         # Create the Heaven or Paradise, ready to utilize
