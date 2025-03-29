@@ -133,10 +133,6 @@ class Realm(object):
 
         # -----------------------------------------------------------------
 
-        if pully: update_cursor('y')
-        if pullx: update_cursor('x')
-        if not pullx: self.cursor.reset('x') # Reset to 0
-
         # Apply internal-stylings
         if id in self.id.keys():
             if id_has_property('padding'):
@@ -146,16 +142,20 @@ class Realm(object):
 
                 if padding_has_property('top'):                          # Padding Top
                     y += self.id[id].padding.top
-                    update_cursor('y')
 
                 if padding_has_property('bottom'):                       # Padding Bottom
                     self.cursor.y += self.id[id].padding.bottom
 
                 if padding_has_property('left'):                         # Padding Left
-                    text = " " * self.id[id].padding.left + text
+                    x += self.id[id].padding.left
 
                 if padding_has_property('right'):                        # Padding Right
                     text = text + " " * self.id[id].padding.right
+
+        # Update cursor
+        if pully: update_cursor('y')
+        if pullx: update_cursor('x')
+        if not pullx: self.cursor.reset('x') # Reset to 0
 
         # Apply inline-stylings
         if pullyx:

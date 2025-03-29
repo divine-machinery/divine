@@ -9,8 +9,11 @@ from divine import Heaven
 class _MainMenu(Heaven):
 
     def _Layout(self):
-        self.maxy =18
+        self.maxy =19
         self.maxx = 50
+
+    def _Border(self):
+        self.has_border = True
 
     menu = (
         "I love you.",
@@ -31,14 +34,12 @@ class _MainMenu(Heaven):
             self.write("Hello, World! Welcome Human!", id='welcoming_message')
             draw_menu(self.menu)
 
-            guess = self.ask("Enter your guess(0/1/2/3): ", desired=int, informative=True, id='question')
+            guess = self.ask("> Enter your guess(0/1/2/3): ", desired=int, informative=True, id='question', pullx=False)
 
             if guess.fullfilled and guess.answer in (0, 1, 2, 3):
-                self.write()
-                self.write("Oh okay...", id='farewell')
-                self.write("Just remember. I always loved you<3", id='farewell')
-                self.write("Exiting..", id='log')
-                self.refresh()
+                self.write("│ Oh okay...", id='farewell')
+                self.write("│ Just remember. I always loved you<3")
+                self.write("│ Exiting..", id='log')
                 time.sleep(3)
                 break
         
@@ -52,27 +53,15 @@ class _MainMenu(Heaven):
             }
         }
 
-        self.id.welcoming_message = {
-            'padding': {
-                'left': 2,
-            }
-        }
-
-        self.id.menu_item = {
-            'padding': {
-                'left': 2,
-            }
-        }
-
         self.id.question = {
             'padding': {
                 'top': 2,
-                'left': 2,
             }
         }
 
         self.id.farewell = {
             'padding': {
+                'top': 1,
                 'left': 2,
             }
         }
@@ -80,7 +69,6 @@ class _MainMenu(Heaven):
         self.id.log = {
             'padding': {
                 'top': 1,
-                'left': 5,
             }
         }
 
