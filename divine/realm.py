@@ -1,3 +1,4 @@
+import numpy
 import curses
 from box import Box
 from prodict import Prodict
@@ -222,6 +223,30 @@ class Realm(object):
 
         return answer if not informative else Box({'answer': answer, 'fullfilled': fullfilled})
 
+    def better_getstr(self):
+        string = ['I', ' ', 'l', 'o', 'v', 'e', ' ', 'y', 'o', 'u'
+                , ' ', 's', 'o', 'o', 'o', 'o', 'o', 'o', ' ', 'I'
+                , ' ', 'a', 'm', ' ', 'g', 'o', 'n', 'n', 'a', ' '
+                , 'p', 'a', 'c', 'k', ' ', 'm', 'y', ' ', 't', 'h'
+                , 'i', 'n', 'g', 's', ' ', 'a', 'n', 'd', ' ', 'l'
+                , 'e', 'a', 'v', 'e', ' ', 'y', 'o', 'u', ' ', 'b'
+                , 'e', 'h', 'i', 'n', 'd', ' ', 'a', 'n', 'd', ' '
+                , 't', 'h', 'i', 's', ' ', 'f', 'e', 'e', 'l', 'i'
+                , 'n', 'g', ' ', 'o', 'l', 'd', ' ', 'b', 'u', 't'
+                , ' ', 'I', ' ', 'k', 'n', 'o', 'w', ' ', 'a', 'n'
+                , 'd', ' ', 'I', ' ', 'h', 'a', 'v', 'e', ' ', 'm'
+                , 'a', 'd', 'e', ' ', 'u', 'p', ' ', 'm', 'y', ' '
+                , 'm', 'i', 'n', 'd', ' ']
+        curses.noecho()
+        while True:
+            another_sect = 0
+            for sect in range(0, int(numpy.ceil(len(string)/self.maxx))):
+                counter = 0
+                for index, ch in enumerate(string[0+another_sect:(self.maxx-2)+another_sect]):
+                    self.realm.addstr(1+sect,1+counter, ch)
+                    counter += 1
+                another_sect += self.maxx-2
+            self.realm.getch()
 
     def __validate_Layout(self):
         # TODO: Create a own exception or find a suitable
