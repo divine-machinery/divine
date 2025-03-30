@@ -225,23 +225,14 @@ class Realm(object):
 
     def better_getstr(self):
 
-        string = ['I', ' ', 'l', 'o', 'v', 'e', ' ', 'y', 'o', 'u'
-                , ' ', 's', 'o', 'o', 'o', 'o', 'o', 'o', ' ', 'I'
-                , ' ', 'a', 'm', ' ', 'g', 'o', 'n', 'n', 'a', ' '
-                , 'p', 'a', 'c', 'k', ' ', 'm', 'y', ' ', 't', 'h'
-                , 'i', 'n', 'g', 's', ' ', 'a', 'n', 'd', ' ', 'l'
-                , 'e', 'a', 'v', 'e', ' ', 'y', 'o', 'u', ' ', 'b'
-                , 'e', 'h', 'i', 'n', 'd', ' ', 'a', 'n', 'd', ' '
-                , 't', 'h', 'i', 's', ' ', 'f', 'e', 'e', 'l', 'i'
-                , 'n', 'g', ' ', 'o', 'l', 'd', ' ', 'b', 'u', 't'
-                , ' ', 'I', ' ', 'k', 'n', 'o', 'w', ' ', 'a', 'n'
-                , 'd', ' ', 'I', ' ', 'h', 'a', 'v', 'e', ' ', 'm'
-                , 'a', 'd', 'e', ' ', 'u', 'p', ' ', 'm', 'y', ' '
-                , 'm', 'i', 'n', 'd', ' ']
+        string = []
 
         curses.noecho()
 
         while True:
+
+            ch = self.realm.getch()
+            string.append(chr(ch))
 
             line_capactiy = 0
 
@@ -255,8 +246,6 @@ class Realm(object):
                     cursor_x += 1
 
                 line_capactiy += self.maxx-2
-
-            self.realm.getch()
 
     def __validate_Layout(self):
         # TODO: Create a own exception or find a suitable
