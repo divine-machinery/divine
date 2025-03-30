@@ -223,6 +223,12 @@ class Realm(object):
 
         return answer if not informative else Box({'answer': answer, 'fullfilled': fullfilled})
 
+    # NOTE: <-----------------------------------------------------!!! 
+    # The performence of this stupid shit is horribly slow due to
+    # the concept of get a character at a time and display it while
+    # also updating the displayable lines. Really need to come up with
+    # better solution and before that this feature will be put on hold
+    # for a certain amount of time.
     def better_getstr(self):
 
         string = []
