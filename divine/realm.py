@@ -1,5 +1,5 @@
-import numpy
 import curses
+from math import ceil
 from box import Box
 from prodict import Prodict
 from .cursor import Cursor
@@ -240,7 +240,7 @@ class Realm(object):
         curses.noecho()
         while True:
             another_sect = 0
-            for sect in range(0, int(numpy.ceil(len(string)/self.maxx))):
+            for sect in range(0, int(ceil(len(string)/self.maxx))):
                 counter = 0
                 for index, ch in enumerate(string[0+another_sect:(self.maxx-2)+another_sect]):
                     self.realm.addstr(1+sect,1+counter, ch)
