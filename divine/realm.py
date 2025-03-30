@@ -224,6 +224,7 @@ class Realm(object):
         return answer if not informative else Box({'answer': answer, 'fullfilled': fullfilled})
 
     def better_getstr(self):
+
         string = ['I', ' ', 'l', 'o', 'v', 'e', ' ', 'y', 'o', 'u'
                 , ' ', 's', 'o', 'o', 'o', 'o', 'o', 'o', ' ', 'I'
                 , ' ', 'a', 'm', ' ', 'g', 'o', 'n', 'n', 'a', ' '
@@ -237,15 +238,24 @@ class Realm(object):
                 , 'd', ' ', 'I', ' ', 'h', 'a', 'v', 'e', ' ', 'm'
                 , 'a', 'd', 'e', ' ', 'u', 'p', ' ', 'm', 'y', ' '
                 , 'm', 'i', 'n', 'd', ' ']
+
         curses.noecho()
+
         while True:
-            another_sect = 0
-            for sect in range(0, int(ceil(len(string)/self.maxx))):
-                counter = 0
-                for index, ch in enumerate(string[0+another_sect:(self.maxx-2)+another_sect]):
-                    self.realm.addstr(1+sect,1+counter, ch)
-                    counter += 1
-                another_sect += self.maxx-2
+
+            line_capactiy = 0
+
+            for cursor_y in range(ceil(len(string)/self.maxx)):
+
+                cursor_x = 0
+
+                for ch in string[0+line_capactiy : (self.maxx-2)+line_capactiy]:
+
+                    self.realm.addstr(1+cursor_y,1+cursor_x, ch)
+                    cursor_x += 1
+
+                line_capactiy += self.maxx-2
+
             self.realm.getch()
 
     def __validate_Layout(self):
