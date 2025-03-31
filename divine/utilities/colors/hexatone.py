@@ -1,14 +1,9 @@
 # TODO: Manaully make the dataclass frozen(mutable)
 from dataclasses import dataclass
-from .rgb import rgb
 
 
 @dataclass(order=True)
 class hexatone:
-
-    r: int
-    g: int
-    b: int
 
     def __init__(self, r, g, b):
         self.r, self.g, self.b = hexatone.colormodel((r, g, b), returnable=True)
