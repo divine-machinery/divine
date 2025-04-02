@@ -69,18 +69,20 @@ class Realm(object):
 
     def write(
         self, 
-        text = '', 
+
+        text: str = '', 
         *coordinates, 
-        pully = True, 
-        pullx = True, 
-        pullyx = False, 
-        reverse = False, 
-        top = 0,
-        bottom = 0,
-        left = 0,
-        right = 0,
-        tag = ''
-    ):
+        pully: bool = True, 
+        pullx: bool = True, 
+        pullyx: bool = False, 
+        reverse: bool = False, 
+        top: int = 0,
+        bottom: int = 0,
+        left: int = 0,
+        right: int = 0,
+        tag: str = ''
+
+    ) -> None:
 
         if len(coordinates) not in (0, 2):
             raise Exception
@@ -175,20 +177,22 @@ class Realm(object):
 
     def ask(
         self, 
-        question = '', 
+
+        question: str = '', 
         *coordinates, 
-        pully = True, 
-        pullx = True, 
-        pullyx = False, 
-        reverse = False, 
-        top = 0,
-        bottom = 0,
-        left = 0,
-        right = 0,
-        desired = str, 
-        informative = False,
-        tag = ''
-    ):
+        pully: bool = True, 
+        pullx: bool = True, 
+        pullyx: bool = False, 
+        reverse: bool = False, 
+        top: int = 0,
+        bottom: int = 0,
+        left: int = 0,
+        right: int = 0,
+        desired: type = str, 
+        informative: bool = False,
+        tag: str = ''
+
+    ) -> Box | None:
 
         self.write(question, *coordinates, pully=pully, pullx=pullx, pullyx=pullyx, reverse=reverse, top=top, bottom=bottom, left=left, right=right, tag=tag)
         answer = self.realm.getstr().decode('utf-8')
@@ -198,7 +202,14 @@ class Realm(object):
 
         return answer if not informative else Box({'answer': answer, 'fullfilled': fullfilled})
 
-    def barrier(self, activate=None, **kwargs):
+    def barrier(
+            self, 
+            
+            activate: bool = None, 
+            **kwargs
+
+        ) -> None:
+
         """ Draw a border, if called again, erase the drawn border.
         """
 
