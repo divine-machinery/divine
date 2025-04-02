@@ -9,18 +9,12 @@ class Realm(object):
     realm: curses.window
     cursor: Cursor
 
-    def _Layout(self):
-        """ Custom layout configurations can be written here. If
-            not specified, the default configurations will take over
-        """
-
-    def _Border(self):
-        """ Custom border configurations can be written here. If
-            not specified, the default configurations will take over
-        """
+    has_border = False
 
     def _styles(self):
-        ...
+        """ Custom internal-stylings can be applied here. Borders, Layouts
+            are also included here.
+        """
 
     def main(self):
         """ The main application logics can be written here 
@@ -31,29 +25,18 @@ class Realm(object):
             no longer accessible until it is deconstructed
         """
 
-        # Define Default Configurations(not immediately used)
-        self.Default_Configurations()
-
-        # Overwrite the Default Configurations if specified
-        self._Border()
-
-        self._Layout()
-        self.__validate_Layout()
+        # Assign Default Configurations
+        self.__Default_Configurations()
 
         # Define Internal Stylings(not immediately used)
         self._styles()
 
         # Create the Heaven or Paradise, ready to utilize
+        self.__validate_Layout()
         self.spawn()
 
         # Echo mode enabled for ask method
         curses.echo()
-
-        # Apply Configurations
-        if self.border.all != None:
-            for border_ch in self.border:
-                self.border[border_ch] = self.border.all
-        self.__draw_border() if self.has_border else self.__erase_border()
 
     def stop(self):
         """ Deconstruct the realm, restoring the default Terminal
@@ -75,7 +58,7 @@ class Realm(object):
         """
         self.realm.refresh()
 
-    def reset(self):
+    def purify(self):
         """ Clear the Realm outputs.
             Reset the cursors
         """
@@ -86,18 +69,20 @@ class Realm(object):
 
     def write(
         self, 
-        text = '', 
+
+        text: str = '', 
         *coordinates, 
-        pully = True, 
-        pullx = True, 
-        pullyx = False, 
-        reverse = False, 
-        top = 0,
-        bottom = 0,
-        left = 0,
-        right = 0,
-        tag = ''
-    ):
+        pully: bool = True, 
+        pullx: bool = True, 
+        pullyx: bool = False, 
+        reverse: bool = False, 
+        top: int = 0,
+        bottom: int = 0,
+        left: int = 0,
+        right: int = 0,
+        tag: str = ''
+
+    ) -> None:
 
         if len(coordinates) not in (0, 2):
             raise Exception
@@ -131,13 +116,6 @@ class Realm(object):
                 case 'x': self.cursor.x = x - self.has_border
                 case _: raise Exception
 
-        def id_has_property(property) -> bool:
-            match property:
-                case 'top':         return 'top'        in self.tag[tag].keys()
-                case 'bottom':      return 'bottom'     in self.tag[tag].keys()
-                case 'left':        return 'left'       in self.tag[tag].keys()
-                case 'right':       return 'right'      in self.tag[tag].keys()
-
         # -----------------------------------------------------------------
 
         # Update cursor
@@ -155,18 +133,18 @@ class Realm(object):
                 # NOTE <--------------------------------------- !!!
                 # If the property is only changing axis but not
                 # cursor, the cursor is specifically need to update 
-                if id_has_property('top') and not inline_styled('top'): 
+                if self.__tag_has_property('top', tag) and not inline_styled('top'): 
                     y += self.tag[tag]['top']
                     update_cursor('y')
 
-                if id_has_property('bottom') and not inline_styled('bottom'): 
+                if self.__tag_has_property('bottom', tag) and not inline_styled('bottom'): 
                     self.cursor.y += self.tag[tag]['bottom']
 
-                if id_has_property('left') and not inline_styled('left'): 
+                if self.__tag_has_property('left', tag) and not inline_styled('left'): 
                     x += self.tag[tag]['left']
                     update_cursor('x')
 
-                if id_has_property('right') and not inline_styled('right'): 
+                if self.__tag_has_property('right', tag) and not inline_styled('right'): 
                     text = text + " " * self.tag[tag]['right']
 
         # -----------------------------------------------------------------
@@ -199,20 +177,22 @@ class Realm(object):
 
     def ask(
         self, 
-        question = '', 
+
+        question: str = '', 
         *coordinates, 
-        pully = True, 
-        pullx = True, 
-        pullyx = False, 
-        reverse = False, 
-        top = 0,
-        bottom = 0,
-        left = 0,
-        right = 0,
-        desired = str, 
-        informative = False,
-        tag = ''
-    ):
+        pully: bool = True, 
+        pullx: bool = True, 
+        pullyx: bool = False, 
+        reverse: bool = False, 
+        top: int = 0,
+        bottom: int = 0,
+        left: int = 0,
+        right: int = 0,
+        desired: type = str, 
+        informative: bool = False,
+        tag: str = ''
+
+    ) -> Box | None:
 
         self.write(question, *coordinates, pully=pully, pullx=pullx, pullyx=pullyx, reverse=reverse, top=top, bottom=bottom, left=left, right=right, tag=tag)
         answer = self.realm.getstr().decode('utf-8')
@@ -222,6 +202,70 @@ class Realm(object):
 
         return answer if not informative else Box({'answer': answer, 'fullfilled': fullfilled})
 
+    def barrier(
+            self, 
+            
+            activate: bool = None, 
+            **kwargs
+
+        ) -> None:
+
+        """ Draw a border, if called again, erase the drawn border.
+        """
+
+        # TODO: Make a own border function, the Curses one does not support all 
+        # characters. (Raises OverflowError)
+
+        self.border.all          = kwargs.get('all', self.border.all)
+        self.border.left         = kwargs.get('left', self.border.left )
+        self.border.right        = kwargs.get('right', self.border.right )
+        self.border.top          = kwargs.get('top', self.border.top )
+        self.border.bottom       = kwargs.get('bottom', self.border.bottom )
+        self.border.top_left     = kwargs.get('top_left', self.border.top_left )
+        self.border.top_right    = kwargs.get('top_right', self.border.top_right )
+        self.border.bottom_left  = kwargs.get('bottom_left', self.border.bottom_left )
+        self.border.bottom_right = kwargs.get('bottom_right', self.border.bottom_right )
+
+        def draw():
+            self.realm.border(
+                self.border.left,
+                self.border.right,
+                self.border.top,
+                self.border.bottom,
+                self.border.top_left,
+                self.border.top_right,
+                self.border.bottom_left,
+                self.border.bottom_right,
+            )
+            self.has_border = True
+
+        def erase():
+            self.realm.border(' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ')
+            self.has_border = False
+
+        if self.border.all != None:
+            for border_ch in self.border:
+                self.border[border_ch] = self.border.all
+
+        if activate == None: draw() if not self.has_border else erase()
+        elif activate: draw()
+        elif not activate: erase()
+
+
+    def __Default_Configurations(self):
+
+        self.border = Box()
+        self.border.all          = None
+        self.border.left         = curses.ACS_VLINE
+        self.border.right        = curses.ACS_VLINE
+        self.border.top          = curses.ACS_HLINE
+        self.border.bottom       = curses.ACS_HLINE
+        self.border.top_left     = curses.ACS_ULCORNER
+        self.border.top_right    = curses.ACS_URCORNER
+        self.border.bottom_left  = curses.ACS_LLCORNER
+        self.border.bottom_right = curses.ACS_LRCORNER
+
+        self.tag = Box()
 
     def __validate_Layout(self):
         # TODO: Create a own exception or find a suitable
@@ -229,36 +273,9 @@ class Realm(object):
             if layout < 0:
                 raise Exception
 
-    def Default_Configurations(self):
-
-      # def _Border(self):
-            self.has_border = False
-            self.border = Box()
-            self.border.all          = None
-            self.border.left         = curses.ACS_VLINE
-            self.border.right        = curses.ACS_VLINE
-            self.border.top          = curses.ACS_HLINE
-            self.border.bottom       = curses.ACS_HLINE
-            self.border.top_left     = curses.ACS_ULCORNER
-            self.border.top_right    = curses.ACS_URCORNER
-            self.border.bottom_left  = curses.ACS_LLCORNER
-            self.border.bottom_right = curses.ACS_LRCORNER
-
-            # tag will use Box for now. It wasn't usable until commit baf873d83edc7936d288941e24557b71058b9da2
-            self.tag = Box()
-
-    def __draw_border(self):
-        # TODO: Make a own border function, the Curses one does not support all characters. (Raises OverflowError)
-        self.realm.border(
-            self.border.left,
-            self.border.right,
-            self.border.top,
-            self.border.bottom,
-            self.border.top_left,
-            self.border.top_right,
-            self.border.bottom_left,
-            self.border.bottom_right,
-        )
-
-    def __erase_border(self):
-        self.realm.border(' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ')
+    def __tag_has_property(self, property, tag) -> bool:
+        match property:
+            case 'top':         return 'top'        in self.tag[tag].keys()
+            case 'bottom':      return 'bottom'     in self.tag[tag].keys()
+            case 'left':        return 'left'       in self.tag[tag].keys()
+            case 'right':       return 'right'      in self.tag[tag].keys()

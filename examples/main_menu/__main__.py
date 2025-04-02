@@ -3,13 +3,6 @@ from divine import Heaven
 
 class _MainMenu(Heaven):
 
-    def _Layout(self):
-        self.maxy =19
-        self.maxx = 50
-
-    def _Border(self):
-        self.has_border = True
-
     menu = (
         "I love you.",
         "Perhaps, I like you.",
@@ -24,6 +17,7 @@ class _MainMenu(Heaven):
                 self.write(f"{index}.{item}")
 
         while True:
+            self.barrier(activate=True)
             self.write("> examples/main_menu.py", tag='awesome', top=2)
             self.write("Hello, World! Welcome Human!", bottom=1)
             draw_menu(self.menu)
@@ -37,12 +31,13 @@ class _MainMenu(Heaven):
                 time.sleep(3)
                 break
         
-            self.reset()
+            self.purify()
 
     def _styles(self):
         self.tag.awesome = {
-            'left': 2,
+            'left': 4,
         }
+        self.border.all = 'X'
 
 MainMenu = _MainMenu()
 
