@@ -197,6 +197,7 @@ class Realm(object):
         except: fullfilled = False
 
         return answer if not informative else Box({'answer': answer, 'fullfilled': fullfilled})
+
     def barrier(self, activate=None, **kwargs):
         """ Draw a border, if called again, erase the drawn border.
         """
@@ -225,11 +226,11 @@ class Realm(object):
                 self.border.bottom_left,
                 self.border.bottom_right,
             )
-            if activate == None: self.has_border = True
+            self.has_border = True
 
         def erase():
             self.realm.border(' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ')
-            if activate == None: self.has_border = False
+            self.has_border = False
 
         if self.border.all != None:
             for border_ch in self.border:

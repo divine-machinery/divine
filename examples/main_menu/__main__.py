@@ -35,8 +35,9 @@ class _MainMenu(Heaven):
 
     def _styles(self):
         self.tag.awesome = {
-            'left': 2,
+            'left': 4,
         }
+        self.border.all = 'X'
 
 MainMenu = _MainMenu()
 
