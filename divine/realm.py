@@ -1,12 +1,12 @@
-# I guess this is the end of the experiment. After sitting here for many hours,
-# I had to come to the conclusion: curses only support a total of 256 pairs.
-# Even though the documentation implies that I can initiate many pairs I want
-# as long as it is less than curses.COLOR_PAIRS, which returns 65536 on my
-# screen. But more than initiating 256 pairs will only just repeat everything
-# again from 0 to 255 instead of initiating new colors.
+# Yep, it is confirmed, after manually creating init_pairs, it is
+# confirmed that curses only support a total of 256 pairs and there
+# is no point to continue tempting. The Experiment will be labelled
+# as FAILED and no longer should be continue. 
 # 
-# Screenshot_2025-04-03_13-45-05.png is the unnecessary evidence.
+# Screenshot_2025-04-03_13-59-07.png is the unnecessary evidence.
+# (Same output with Screenshot_2025-04-03_13-45-05.png)
 
+from .idk import *
 import curses
 from box import Box
 from prodict import Prodict
@@ -306,13 +306,7 @@ class Realm(object):
                 rgb_to_termcolor(color.b),
             )
 
-        self.pairs = []
-        for bg in range(126):
-            for fg in range(126):
-                self.pairs.append((fg, bg))
-
-        for pair_num, pair in enumerate(self.pairs):
-            curses.init_pair(pair_num, pair[0], pair[1])
+        init_all_pairs()
 
     def __tag_has_property(self, property, tag) -> bool:
         match property:
