@@ -213,14 +213,28 @@ class Realm(object):
 
         while True:
             ch = self.realm.getch()
-            string.append(chr(ch))
 
-            self.realm.addch(cursor_y, cursor_x, chr(ch))
+            if ch == 127 and len(string) != 0:
+                string.pop()
 
-            cursor_x += 1
-            if cursor_x == self.maxx - self.has_border - self.has_border:
-                cursor_x = self.has_border
-                cursor_y += 1
+                if cursor_x == 0:
+                    cursor_y -= 1
+                    cursor_x = self.maxx - self.has_border - self.has_border
+                cursor_x -= 1
+
+                self.realm.addch(cursor_y, cursor_x, " ")
+                self.realm.move(cursor_y, cursor_x)
+
+            if ch != 127:
+                string.append(chr(ch))
+
+                self.realm.addch(cursor_y, cursor_x, chr(ch))
+                self.realm.move(cursor_y, cursor_x+1)
+
+                if cursor_x == self.maxx - self.has_border - self.has_border:
+                    cursor_x = self.has_border
+                    cursor_y += 1
+                else: cursor_x += 1
 
     def barrier(
             self, 
