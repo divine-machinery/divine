@@ -203,37 +203,24 @@ class Realm(object):
 
         return answer if not informative else Box({'answer': answer, 'fullfilled': fullfilled})
 
-    # NOTE: <-----------------------------------------------------!!! 
-    # The performence of this stupid shit is horribly slow due to
-    # the concept of get a character at a time and display it while
-    # also updating the displayable lines. Really need to come up with
-    # better solution and before that this feature will be put on hold
-    # for a certain amount of time.
     def better_getstr(self):
 
         string = []
-
         curses.noecho()
 
-        while True:
+        cursor_y = self.has_border
+        cursor_x = self.has_border
 
+        while True:
             ch = self.realm.getch()
             string.append(chr(ch))
 
-            finished_chs = 0
-            maxy = range(ceil(len(string)/self.maxx))
-            maxx = self.maxx-self.has_border-self.has_border
+            self.realm.addch(cursor_y, cursor_x, chr(ch))
 
-            for cursor_y in maxy:
-
-                cursor_x = 0
-
-                for ch in string[0+finished_chs : maxx+finished_chs]:
-
-                    self.realm.addstr(self.has_border+cursor_y,self.has_border+cursor_x, ch)
-                    cursor_x += 1
-
-                finished_chs += maxx
+            cursor_x += 1
+            if cursor_x == self.maxx - self.has_border - self.has_border:
+                cursor_x = self.has_border
+                cursor_y += 1
 
     def barrier(
             self, 
