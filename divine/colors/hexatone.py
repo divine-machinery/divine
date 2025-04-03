@@ -21,6 +21,6 @@ def hexatone_to_rgb(hextone_channel):
     elif hextone_channel == 0: return 0
     elif hextone_channel == 1: return 51
     elif hextone_channel == 2: return 102
-    elif hextone_channel == 3: return 103
+    elif hextone_channel == 3: return 153
     elif hextone_channel == 4: return 204
     elif hextone_channel == 5: return 255

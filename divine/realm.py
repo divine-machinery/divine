@@ -1,7 +1,17 @@
+# I guess this is the end of the experiment. After sitting here for many hours,
+# I had to come to the conclusion: curses only support a total of 256 pairs.
+# Even though the documentation implies that I can initiate many pairs I want
+# as long as it is less than curses.COLOR_PAIRS, which returns 65536 on my
+# screen. But more than initiating 256 pairs will only just repeat everything
+# again from 0 to 255 instead of initiating new colors.
+# 
+# Screenshot_2025-04-03_13-45-05.png is the unnecessary evidence.
+
 import curses
 from box import Box
 from prodict import Prodict
 from .cursor import Cursor
+from .colors import *
 
 
 class Realm(object):
@@ -24,6 +34,9 @@ class Realm(object):
         """ Construct a ready-made realm, the default Terminal is 
             no longer accessible until it is deconstructed
         """
+
+        curses.start_color()
+        curses.use_default_colors()
 
         # Assign Default Configurations
         self.__Default_Configurations()
@@ -267,11 +280,39 @@ class Realm(object):
 
         self.tag = Box()
 
+        self.__init_colors()
+
     def __validate_Layout(self):
         # TODO: Create a own exception or find a suitable
         for layout in (self.maxy, self.maxx, self.begy, self.begx):
             if layout < 0:
                 raise Exception
+
+    def __init_colors(self):
+
+        self.colors = []
+
+        for r in range(6):
+            for g in range(6):
+                for b in range(6):
+                    self.colors.append(rgb(hexatone(r, g, b)))
+
+        for color_num, color in enumerate(self.colors):
+
+            curses.init_color(
+                color_num, 
+                rgb_to_termcolor(color.r),
+                rgb_to_termcolor(color.g),
+                rgb_to_termcolor(color.b),
+            )
+
+        self.pairs = []
+        for bg in range(126):
+            for fg in range(126):
+                self.pairs.append((fg, bg))
+
+        for pair_num, pair in enumerate(self.pairs):
+            curses.init_pair(pair_num, pair[0], pair[1])
 
     def __tag_has_property(self, property, tag) -> bool:
         match property:
