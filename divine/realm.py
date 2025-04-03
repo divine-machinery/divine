@@ -204,43 +204,75 @@ class Realm(object):
         return answer if not informative else Box({'answer': answer, 'fullfilled': fullfilled})
 
     def better_getstr(self):
+        """ A very customizable input method.
+        """
+        # TODO ------------------------------------------------------- > w <
+        #  ~ Change the method name it is so shit 
+        #  + Add arrow keys functionality
 
+        # This list will track all the characters that user pressed between ascii values 32 to 126
         string = []
+
+        # Temporarily Disable the text echoing, specifically for curses.window.getch() 
         curses.noecho()
 
+        # TODO ------------------------------------------------------- > w <
+        #  + Add self.cursor to track the latest cursor coordinates
+        #  + Add coordinates parameters for manual coordinate assignments 
         cursor_y = self.has_border
         cursor_x = self.has_border
 
+        # Enter a loop and stay inside until Enter Key(ascii value 10) is pressed 
         while True:
+
+            # Move the cursor 
             self.realm.move(cursor_y, cursor_x)
+
+            # This guy is the one who has been listening almost all the keyboard events 
             ch = self.realm.getch()
 
+            # If the received character is a backspace 
             if ch == 127 and len(string) != 0:
 
+                # Remove the latest character from the list
                 string.pop()
 
+                # Update the cursors
                 if cursor_x == self.has_border:
                     cursor_y -= 1
                     cursor_x = self.maxx - self.has_border
                 cursor_x -= 1
 
+                # Update the screen
                 self.realm.addch(cursor_y, cursor_x, " ")
 
+
+            # If the received character is a typable letter(ascii value 32 to 126)
             elif 32 <= ch <= 126:
+
+                # Append the received character to the list
                 string.append(chr(ch))
 
+                # Update the screen
                 self.realm.addch(cursor_y, cursor_x, chr(ch))
 
+                # Update the cursors
                 if cursor_x == self.maxx - 1 - self.has_border:
                     cursor_x = self.has_border
                     cursor_y += 1
 
                 else: cursor_x += 1
 
+            # If the received character is an Enter
             elif ch == 10:
+
+                # Leave the loop
                 break
 
+        # Re-enable the enchoing for other curses.window.get* methods
         curses.echo()
+
+        # Finally return the list of received characters 
         return "".join(string)
     
     def barrier(
