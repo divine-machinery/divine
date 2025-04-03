@@ -203,7 +203,7 @@ class Realm(object):
 
         return answer if not informative else Box({'answer': answer, 'fullfilled': fullfilled})
 
-    def better_getstr(self):
+    def better_getstr(self, *coordinates, length=None):
         """ A very customizable input method.
         """
         # TODO ------------------------------------------------------- > w <
@@ -216,11 +216,27 @@ class Realm(object):
         # Temporarily Disable the text echoing, specifically for curses.window.getch() 
         curses.noecho()
 
-        # TODO ------------------------------------------------------- > w <
-        #  + Add self.cursor to track the latest cursor coordinates
-        #  + Add coordinates parameters for manual coordinate assignments 
-        cursor_y = self.has_border
-        cursor_x = self.has_border
+        if len(coordinates) not in (0, 2): raise Exception
+
+        elif len(coordinates) == 0:
+            y = 0 + (self.cursor.y + 1)
+            x = 0 + self.cursor.x
+
+        elif len(coordinates) == 2:
+            y = coordinates[0]
+            x = coordinates[1]
+
+        cursor_y = y + self.has_border
+        cursor_x = x + self.has_border
+
+        # Determine the maximum amount of inputtable characters
+        border_length = (self.has_border + self.has_border)
+        max_ch = (self.maxy - border_length - self.cursor.x) * (self.maxx - border_length - self.cursor.y)
+
+        if length is not None:
+            if max_ch < length: raise Exception
+        else:
+            length = max_ch
 
         # Enter a loop and stay inside until Enter Key(ascii value 10) is pressed 
         while True:
@@ -248,7 +264,7 @@ class Realm(object):
 
 
             # If the received character is a typable letter(ascii value 32 to 126)
-            elif 32 <= ch <= 126:
+            elif 32 <= ch <= 126 and len(string) < length:
 
                 # Append the received character to the list
                 string.append(chr(ch))
@@ -271,6 +287,9 @@ class Realm(object):
 
         # Re-enable the enchoing for other curses.window.get* methods
         curses.echo()
+
+        # Update self.cursors (not better_getstr's cursors)
+        self.cursor.y = cursor_y - 1
 
         # Finally return the list of received characters 
         return "".join(string)
