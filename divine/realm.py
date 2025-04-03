@@ -220,18 +220,20 @@ class Realm(object):
             ch = self.realm.getch()
             string.append(chr(ch))
 
-            line_capactiy = 0
+            finished_chs = 0
+            maxy = range(ceil(len(string)/self.maxx))
+            maxx = self.maxx-self.has_border-self.has_border
 
-            for cursor_y in range(ceil(len(string)/self.maxx)):
+            for cursor_y in maxy:
 
                 cursor_x = 0
 
-                for ch in string[0+line_capactiy : (self.maxx-2)+line_capactiy]:
+                for ch in string[0+finished_chs : maxx+finished_chs]:
 
-                    self.realm.addstr(1+cursor_y,1+cursor_x, ch)
+                    self.realm.addstr(self.has_border+cursor_y,self.has_border+cursor_x, ch)
                     cursor_x += 1
 
-                line_capactiy += self.maxx-2
+                finished_chs += maxx
 
     def barrier(
             self, 
