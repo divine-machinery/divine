@@ -178,21 +178,21 @@ class Realm(object):
                 #  * Inline styling should and will overide the internal-stylings
 
                 ### STYLE: top
-                if self.__tag_has_property('top', tag) and not inline_styled('top'): 
+                if self.__tag_has_property(tag, has='top') and not inline_styled('top'): 
                     y += self.tag[tag]['top']
                     update_cursor('y')
 
                 ### STYLE: bottom
-                if self.__tag_has_property('bottom', tag) and not inline_styled('bottom'): 
+                if self.__tag_has_property(tag, has='bottom') and not inline_styled('bottom'): 
                     self.cursor.y += self.tag[tag]['bottom']
 
                 ### STYLE: left
-                if self.__tag_has_property('left', tag) and not inline_styled('left'): 
+                if self.__tag_has_property(tag, has='left') and not inline_styled('left'): 
                     x += self.tag[tag]['left']
                     update_cursor('x')
 
                 ### STYLE: right
-                if self.__tag_has_property('right', tag) and not inline_styled('right'): 
+                if self.__tag_has_property(tag, has='right') and not inline_styled('right'): 
                     text = text + " " * self.tag[tag]['right']
 
 
@@ -423,8 +423,8 @@ class Realm(object):
             if layout < 0:
                 raise InvalidLayout(f"Expected a layout larger than 0. Got {layout}.")
 
-    def __tag_has_property(self, property, tag) -> bool:
-        match property:
+    def __tag_has_property(self, tag, has) -> bool:
+        match has:
             case 'top':         return 'top'        in self.tag[tag].keys()
             case 'bottom':      return 'bottom'     in self.tag[tag].keys()
             case 'left':        return 'left'       in self.tag[tag].keys()
