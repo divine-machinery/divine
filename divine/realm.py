@@ -1,7 +1,6 @@
 import curses
 from math import ceil
 from box import Box
-from prodict import Prodict
 from .cursor import Cursor
 
 
