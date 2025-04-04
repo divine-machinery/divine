@@ -15,17 +15,19 @@ class Paradise(Realm):
         self.start()
         self.main()
 
-    def spawn(self):
+    def summon(self):
         self.realm = self.parent.realm.derwin(self.maxy, self.maxx, self.begy, self.begx)
 
     def _Realm__Default_Configurations(self):
-    # If not specified _Layout(), the Pardise will take over its parent, Heaven
 
-      # def _Layouts(self):
-            self.maxy, self.maxx = self.parent.realm.getmaxyx()
-            self.begy, self.begx = self.parent.realm.getbegyx()
-        
-            return super()._Realm__Default_Configurations()
+        # NOTE <-------------------------------------------- !!!
+        # If not assigned the Layouts inside styles(), Pardise
+        # will take over the, parent, Heaven's layouts
+
+        self.maxy, self.maxx = self.parent.realm.getmaxyx()
+        self.begy, self.begx = self.parent.realm.getbegyx()
+    
+        return super()._Realm__Default_Configurations()
 
     def parent(self):
          ...

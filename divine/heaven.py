@@ -16,13 +16,16 @@ class Heaven(Realm):
         self.main()
         self.stop()
     
-    def spawn(self):
+    def summon(self):
         self.realm = curses.newwin(self.maxy, self.maxx, self.begy, self.begx)
 
     def _Realm__Default_Configurations(self):
 
-      # def _Layouts(self):
-            self.maxy, self.maxx = self.realm.getmaxyx()
-            self.begy, self.begx = self.realm.getbegyx()
-        
-            return super()._Realm__Default_Configurations()
+        # NOTE <-------------------------------------------- !!!
+        # * If not specified the Realm Layouts inside styles(),
+        # * Heave will take over the screen's layouts
+
+        self.maxy, self.maxx = self.realm.getmaxyx()
+        self.begy, self.begx = self.realm.getbegyx()
+    
+        return super()._Realm__Default_Configurations()

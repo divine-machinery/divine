@@ -19,7 +19,7 @@ class _MainMenu(Heaven):
         while True:
             self.barrier(activate=True)
             self.write("> examples/main_menu.py", tag='awesome', top=2)
-            self.write("Hello, World! Welcome Human!", bottom=1)
+            self.write("Hello, World! Welcome Human!", bottom=2)
             draw_menu(self.menu)
 
             guess = self.ask("> Enter your guess(0/1/2/3): ", desired=int, informative=True, top=1)
@@ -31,9 +31,9 @@ class _MainMenu(Heaven):
                 time.sleep(3)
                 break
         
-            self.purify()
+            self.clear()
 
-    def _styles(self):
+    def styles(self):
         self.tag.awesome = {
             'left': 4,
         }
