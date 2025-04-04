@@ -5,7 +5,7 @@ class _Test(Heaven):
 
     def main(self):
         self.barrier()
-        self.better_getstr()
+        self.listen()
 
 Test = _Test()
 Test.run()

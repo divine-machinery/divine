@@ -203,11 +203,10 @@ class Realm(object):
 
         return answer if not informative else Box({'answer': answer, 'fullfilled': fullfilled})
 
-    def better_getstr(self, *coordinates, length=None):
+    def listen(self, *coordinates, length=None):
         """ A very customizable input method.
         """
         # TODO ------------------------------------------------------- > w <
-        #  ~ Change the method name it is so shit 
         #  + Add arrow keys functionality
 
         # This list will track all the characters that user pressed between ascii values 32 to 126
