@@ -88,6 +88,7 @@ class Realm(object):
         bottom: int = 0,
         left: int = 0,
         right: int = 0,
+        leading: int = 1,
         tag: str = ''
 
     ) -> None:
@@ -101,11 +102,6 @@ class Realm(object):
         #! If received no coordinates, automatically 
         #! assign coordinates by tracking the cursors
         elif len(coordinates) == 0:
-
-            # TODO <----------------------------------- > w < 
-            # * Starting the cursor y from -1 doesn't make any
-            # * sense to begin with.. TwT
-            self.cursor.y += 1
 
             #! Assign the coordinates to write on
             y = self.cursor.y + self.has_border
@@ -150,7 +146,7 @@ class Realm(object):
             #| Self explanatory, innit? XD
 
             match axis:
-                case 'y': self.cursor.y = y - self.has_border
+                case 'y': self.cursor.y = y - self.has_border + leading
                 case 'x': self.cursor.x = x - self.has_border
 
                 case _: ValueError(
