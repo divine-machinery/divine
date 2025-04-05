@@ -81,13 +81,13 @@ class Realm(object):
         text: str = '', 
         *coordinates, 
         pully: bool = True, 
-        pullx: bool = True, 
+        pullx: bool = False, 
         pullyx: bool = False, 
-        reverse: bool = False, 
-        top: int = 0,
-        bottom: int = 0,
-        left: int = 0,
-        right: int = 0,
+        # reverse: bool = False, 
+        top: int = None,
+        bottom: int = None,
+        left: int = None,
+        right: int = None,
         leading: int = 1,
         tag: str = ''
 
@@ -135,65 +135,58 @@ class Realm(object):
             # Checked if a property has inline-styled; Determine
             # by if the property has passed in write()'s arguments 
 
+            # TODO: This funciton can be refined using locals()
+
             # I just love switch cases sooo MUCH :3
             match property:
-                case 'top': return top != 0
-                case 'bottom': return bottom != 0
-                case 'left': return left != 0
-                case 'right': return right != 0
-
-        def update_cursor(axis):
-            # Self explanatory, innit? XD
-
-            match axis:
-                case 'y': self.cursor.y = y - self.has_border + leading
-                case 'x': self.cursor.x = x - self.has_border
-
-                case _: ValueError(
-                    f"Expected 'x' or 'y'. Got {axis}." 
-                )
+                case 'top': return top is not None
+                case 'bottom': return bottom is not None
+                case 'left': return left is not None
+                case 'right': return right is not None
 
         # -----------------------------------------------------------------
 
-        # Update all the cursors in different cases
-        if pully: update_cursor('y')
-        if pullx: update_cursor('x')
-        if not pullx: self.cursor.reset('x') #! Reset to 0
+        # This dictionary is a list that track all the stylings defined
+        style = dict()
+
+        # Assin default styles:
+        style['top'] = 0
+        style['bottom'] = 0
+        style['left'] = 0
+        style['right'] = 0
 
         # -----------------------------------------------------------------
 
         # INTERNAL STYLINGS <--------------------------------------- > w <
 
+        # NOTE: <------------------------------------------- !!!
+        # All the internatl stylings will be applied only if no 
+        # inline-styles were applied, otherwise will overide.
+
         # Separate the tags
         tags = tag.split()
 
-        # Apply internal-stylings for each tags
+        # Add internal-stylings for each tags
         for tag in tags:
 
-            # Check if received tag is styled in some way
+            # Check if received tag is styled
             if tag in self.tag.keys():
 
-                # NOTE <----------------------------------------------------- !!!
-                # The cursor is specifically need to update, at any cases
-                # Inline styling should and will overide the internal-stylings
+                # top
+                if self.__tag_has_property(tag, has='top') and not inline_styled('top'):
+                    style['top'] = self.tag[tag]['top']
 
-                # STYLE: top
-                if self.__tag_has_property(tag, has='top') and not inline_styled('top'): 
-                    y += self.tag[tag]['top']
-                    update_cursor('y')
-
-                # STYLE: bottom
+                # bottom
                 if self.__tag_has_property(tag, has='bottom') and not inline_styled('bottom'): 
-                    self.cursor.y += self.tag[tag]['bottom']
+                    style['bottom'] = self.tag[tag]['bottom']
 
-                # STYLE: left
+                # left
                 if self.__tag_has_property(tag, has='left') and not inline_styled('left'): 
-                    x += self.tag[tag]['left']
-                    update_cursor('x')
+                    style['left'] = self.tag[tag]['left']
 
-                # STYLE: right
+                # right
                 if self.__tag_has_property(tag, has='right') and not inline_styled('right'): 
-                    text = text + " " * self.tag[tag]['right']
+                    style['right'] = self.tag[tag]['right']
 
 
         # -----------------------------------------------------------------
@@ -202,28 +195,55 @@ class Realm(object):
 
         # Apply inline-stylings
 
-        if pullyx:
-            self.cursor.y = y - self.has_border - 1
-            self.cursor.x = x + len(text) - self.has_border
-
-        if reverse: x = self.maxx - len(text) - self.has_border
-
         if inline_styled('top'):
-            y += top
-            update_cursor('y')
+            style['top'] = top
 
         if inline_styled('bottom'):
-            self.cursor.y += bottom
-            # update_cursor('x')
+            style['bottom'] = bottom
 
         if inline_styled('left'):
-            x += left
+            style['left'] = left
 
         if inline_styled('right'):
-            text = text + " " * right
+            style['right'] = right
+
+        # -----------------------------------------------------------------
+
+        # NOTE <-------------------------------------------------------- !!!
+        # The cursor also should be updated once any changes on coordinates
+        # has been made. 
+
+        y += style['top']
+        x += style['left']
+
+        if pully: self.cursor.y = y - self.has_border + style['bottom'] + leading
+        if pullx: self.cursor.x = x - self.has_border + style['right']
+        if not pullx: self.cursor.reset('x') #! Reset to 0
+
+        #  NOTE ---------------------------------------------------------------------
+        # 
+        #  pully:
+        #     True(default): convince the later write() to follow its y coordinate
+        #     False: The later write() will step on this write()'s y coordinate  
+        # 
+        #  pullx:
+        #    True(default): convince the later wrtie() to follow its x coordinate
+        #    False: The later write() will always start at 0 x coordinate
+        #
+        #  --------------------------------------------------------------------------
+
+        # This is the another concept to style left and right
+        # text = (' ' * style['left']) + str(text) + (' ' * style['right'])
+
+        if pullyx:
+            self.cursor.y = y - self.has_border
+            self.cursor.x = x + len(text) - self.has_border
+
+        # TODO: Need to refactor, until then will be commented out
+        # if reverse: x = self.maxx - len(text) - self.has_border
 
         # AND FINALLY, Write the text :>
-        self.realm.addstr(y, x, text)
+        self.realm.addstr(y, x, str(text))
         self.refresh()
 
     def ask(
@@ -232,20 +252,20 @@ class Realm(object):
         question: str = '', 
         *coordinates, 
         pully: bool = True, 
-        pullx: bool = True, 
+        pullx: bool = False, 
         pullyx: bool = False, 
-        reverse: bool = False, 
-        top: int = 0,
-        bottom: int = 0,
-        left: int = 0,
-        right: int = 0,
+        # reverse: bool = False, 
+        top: int = None,
+        bottom: int = None,
+        left: int = None,
+        right: int = None,
         desired: type = str, 
         informative: bool = False,
         tag: str = ''
 
     ) -> Box | None:
 
-        self.write(question, *coordinates, pully=pully, pullx=pullx, pullyx=pullyx, reverse=reverse, top=top, bottom=bottom, left=left, right=right, tag=tag)
+        self.write(question, *coordinates, pully=pully, pullx=pullx, pullyx=pullyx, top=top, bottom=bottom, left=left, right=right, tag=tag)
         answer = self.realm.getstr().decode('utf-8')
 
         try: answer = (desired(answer)); fullfilled = True
