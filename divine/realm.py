@@ -217,7 +217,7 @@ class Realm(object):
         x += style['left']
 
         if pully: self.cursor.y = y - self.has_border + style['bottom'] + leading
-        if pullx: self.cursor.x = x - self.has_border + style['right']
+        if pullx: self.cursor.x = x - self.has_border
         if not pullx: self.cursor.reset('x') #! Reset to 0
 
         #  NOTE ---------------------------------------------------------------------
@@ -232,8 +232,7 @@ class Realm(object):
         #
         #  --------------------------------------------------------------------------
 
-        # This is the another concept to style left and right
-        # text = (' ' * style['left']) + str(text) + (' ' * style['right'])
+        text = str(text) + (' ' * style['right'])
 
         if pullyx:
             self.cursor.y = y - self.has_border
@@ -243,7 +242,7 @@ class Realm(object):
         # if reverse: x = self.maxx - len(text) - self.has_border
 
         # AND FINALLY, Write the text :>
-        self.realm.addstr(y, x, str(text))
+        self.realm.addstr(y, x, text)
         self.refresh()
 
     def ask(
