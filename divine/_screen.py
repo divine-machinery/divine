@@ -14,16 +14,8 @@ class Screen(object):
             otherwise will stays in curses' program mode until a certain point
         """
 
-        if screen is not None and not isinstance(screen, window):
-            raise TypeError(
-                f"Invalid 'window' object. Expected 'curses.window'. Got '{type(screen).__name__}'"
-            )
-
-        elif isinstance(screen, window):
-            self.__screen = screen
-
-        elif screen is None:
-            self.__screen = stdscr
+        # Validate screen object; raise TypeError if not None or curses.window
+        self.__validate_screen(screen)
 
     # NOTE: Currently practicing the habit of writing dostrings. Apologize if my getters hurt your eyes :3
     # NOTE: But I am guessing that I will need to implement them anyway at some points for (setters)validations
@@ -59,3 +51,17 @@ class Screen(object):
         """
 
         return self.__screen.getbegyx()[1]
+
+
+    def __validate_screen(self, screen):
+
+        if screen is not None and not isinstance(screen, window):
+            raise TypeError(
+                f"Invalid 'window' object. Expected 'curses.window'. Got '{type(screen).__name__}'"
+            )
+
+        elif isinstance(screen, window):
+            self.__screen = screen
+
+        elif screen is None:
+            self.__screen = stdscr
