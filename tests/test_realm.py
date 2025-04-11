@@ -9,7 +9,7 @@ class _MainMenu(Realm):
 
     def main(self):
         self.realm.border()
-        self.realm.addstr(1, 1, "Itsumi Mario!")
+        self.write(1, 1, "Itsumi Mario!")
         self.realm.getch()
 
 MainMenu = _MainMenu()

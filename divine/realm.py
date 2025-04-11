@@ -41,6 +41,21 @@ class Realm(object):
         self.main()
         self.stop()
 
+    def write(self, y, x, text):
+        """ Display texts on its Realm using either default cursor or defined Coordinates
+        """
+
+        # Convert the passed argument, text into string in case it was not. Same way as Python's print() does.
+        text = str(text)
+
+        # Display the text on given coordinates
+        # TODO: Define a cursor to track the coordinates in case user didn't defined coordinates
+        self.realm.addstr(y, x, text)
+
+        # curses' addstr() doesn't refresh by itself to avoid screen flickering
+        # TODO: Add an parameter to disable refreshing
+        self.realm.refresh()
+
     def __default_configurations(self):
         if not hasattr(self, 'begy'):
             self.begy = screen.begy
