@@ -1,8 +1,11 @@
 import curses
 from ._screen import screen 
+from .cursor import Cursor
 
 
 class Realm(object):
+
+    cursor = Cursor()
 
     def styles(self):
         """ Realm styles can and must be defined here, including Layouts.
@@ -41,15 +44,35 @@ class Realm(object):
         self.main()
         self.stop()
 
-    def write(self, y, x, text):
+    def write(self, *args, leading=1):
         """ Display texts on its Realm using either default cursor or defined Coordinates
         """
+
+        # Validate the arguments
+        if len(args) not in (1, 3):
+            raise ValueError(
+                f"Expected 1 or 3 arguemtns. Got {len(args)}"
+            )
+
+        # Cursor-assigned coordinates
+        elif len(args) == 1:
+            y = self.cursor.y + (leading if self.cursor.y > 1 else 0)
+            x = self.cursor.x
+            text = args[0]
+
+        # User-defined coordinates
+        elif len(args) == 3:
+            y = args[0]
+            x = args[1]
+            text = args[2]
+
+        # Update the cursors for next write
+        self.cursor.y += 1
 
         # Convert the passed argument, text into string in case it was not. Same way as Python's print() does.
         text = str(text)
 
         # Display the text on given coordinates
-        # TODO: Define a cursor to track the coordinates in case user didn't defined coordinates
         self.realm.addstr(y, x, text)
 
         # curses' addstr() doesn't refresh by itself to avoid screen flickering
