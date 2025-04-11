@@ -23,7 +23,7 @@ I promote this project.
 
 - [Textual](https://www.textualize.io/)
 - [Rich](https://github.com/Textualize/rich)
-- [Uwid](https://urwid.org/index.html)
+- [Urwid](https://urwid.org/index.html)
 
 
 ## Goodpye, World! ;)
