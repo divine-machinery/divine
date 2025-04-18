@@ -8,6 +8,8 @@ class Screen(object):
     def __init__(self) -> None:
 
         self.realm = stdscr = initscr()
+
+        # self parenting on steroids > <
         self.parent = self
 
         self.layout = Layout(

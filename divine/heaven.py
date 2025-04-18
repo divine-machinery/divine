@@ -10,6 +10,7 @@ class Heaven(Realm):
 
 
     def start(self) -> None:
+        self.layout.validate()
         self.summon()
         self.border.apply()
 

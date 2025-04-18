@@ -19,7 +19,7 @@ class Realm(object):
     ) -> None:
 
         self.parent = parent
-        self.layout = Layout(self, coordinate, width, height)
+        self.layout = Layout(self, coordinate, height, width)
 
         self.border = Border(self, border)
 

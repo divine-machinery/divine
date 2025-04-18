@@ -1,4 +1,4 @@
-from typing import Optional, Tuple
+from typing import Optional, Tuple, Literal
 from .utilities import types as Type
 
 
@@ -15,7 +15,7 @@ class Layout(object):
 
         self.source = source
 
-        self.__x, self.__y = coordinate
+        self.__y, self.__x = coordinate
         self.__height = height
         self.__width = width
 
@@ -48,7 +48,7 @@ class Layout(object):
     def height(self) -> int:
 
         if self.__height is None:
-            return self.source.parent.height
+            return self.source.parent.height - self.y
 
         return self.__height
 
@@ -56,7 +56,7 @@ class Layout(object):
     def width(self) -> int:
 
         if self.__width is None:
-            return self.source.parent.width
+            return self.source.parent.width - self.x
 
         return self.__width
 
@@ -89,3 +89,70 @@ class Layout(object):
         return self.width - (self.source.border.ACTIVATED * 2) - 1
 
     # ---
+
+    def validate(self, mode=Literal['debug', 'validate']) -> None:
+
+        # Validate if coordinate is not less than its parent's ending coordiante
+
+        if self.x >= self.source.parent.endx:
+            raise ValueError(
+                f"x({self.x}) must be less than the parent's ending coordinate(y: {self.source.parent.endy}, x: {self.source.parent.endx})"
+            )
+
+
+        if self.y >= self.source.parent.endy:
+            raise ValueError(
+                f"y({self.y}) must be less than the parent's ending coordinate(y: {self.source.parent.endy}, x: {self.source.parent.endx})"
+            )
+
+
+        # Validate if coordinate is less than its parent's ending coordiante
+
+        if self.x < self.source.parent.begx:
+            raise ValueError(
+                f"x({self.x}) cannot less than the parent's beginning coordinate(y: {self.source.parent.endy}, x: {self.source.parent.endx})"
+            )
+
+        if self.y < self.source.parent.begy:
+            raise ValueError(
+                f"y({self.y}) cannot less than the parent's beginning coordinate(y: {self.source.parent.endy}, x: {self.source.parent.endx})"
+            )
+
+
+        # NOTE that width and height doesn't rely on borders but vice versa.
+        # border characters are drawned at the edge of width and height
+
+
+        # Validate if width and height is exceeding its parent's width and height
+
+        if self.width > self.source.parent.width:
+            raise ValueError(f"width({self.width}) cannot exceed the parent's width({self.source.parent.width}).")
+
+        if self.height > self.source.parent.height:
+            raise ValueError(f"height({self.height}) cannot exceed the parent's height({self.source.parent.height}).")
+
+
+        # Validate if width and height is less than its parent's beginning coordinate
+
+        if self.width < self.source.parent.begy:
+            raise ValueError(
+                f"width({self.width}) cannot be less than the parent's beginning coordinate(x: {self.source.parent.begy}, y: {self.source.parent.begx})"
+            )
+
+        if self.height < self.source.parent.begy:
+            raise ValueError(
+                f"height({self.height}) cannot be less than the parent's beginning coordinate(x: {self.source.parent.begy}, y: {self.source.parent.begx})"
+            )
+
+
+        # Validate if width and height is exceeding its parent's available space
+
+        if self.width > self.source.parent.width - self.x:
+            raise ValueError(
+                f"width({self.width}) cannot exceed the parent's available width(from y({self.y}) is {self.source.parent.width - self.x}))"
+            )
+
+        if self.height > self.source.parent.height - self.y:
+            raise ValueError(
+                f"height({self.height}) cannot exceed the parent's available height(from y({self.y}) is {self.source.parent.height - self.y}))"
+            )
