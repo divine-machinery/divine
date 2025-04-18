@@ -48,7 +48,7 @@ class Layout(object):
     def height(self) -> int:
 
         if self.__height is None:
-            return self.source.parent.height - self.y
+            return self.source.parent.height - self.y - self.source.parent.border.ACTIVATED * 2
 
         return self.__height
 
@@ -56,7 +56,7 @@ class Layout(object):
     def width(self) -> int:
 
         if self.__width is None:
-            return self.source.parent.width - self.x
+            return self.source.parent.width - self.x - self.source.parent.border.ACTIVATED * 2
 
         return self.__width
 
@@ -119,17 +119,19 @@ class Layout(object):
             )
 
 
-        # NOTE that width and height doesn't rely on borders but vice versa.
+        # NOTE that width and height doesn't rely on thier source's borders but vice versa.
         # border characters are drawned at the edge of width and height
 
 
-        # Validate if width and height is exceeding its parent's width and height
+        # NOTE: This is redundanted. Should be removed this completely after making sure it is stable
 
-        if self.width > self.source.parent.width:
-            raise ValueError(f"width({self.width}) cannot exceed the parent's width({self.source.parent.width}).")
+        # # Validate if width and height is exceeding its parent's width and height
 
-        if self.height > self.source.parent.height:
-            raise ValueError(f"height({self.height}) cannot exceed the parent's height({self.source.parent.height}).")
+        # if self.width > self.source.parent.width + (self.source.parent.border.ACTIVATED * 2):
+        #     raise ValueError(f"width({self.width}) cannot exceed the parent's width({self.source.parent.width + (self.source.parent.border.ACTIVATED * 2)}).")
+
+        # if self.height > self.source.parent.height + (self.source.parent.border.ACTIVATED * 2):
+        #     raise ValueError(f"height({self.height}) cannot exceed the parent's height({self.source.parent.height + (self.source.parent.border.ACTIVATED * 2)}).")
 
 
         # Validate if width and height is less than its parent's beginning coordinate
@@ -147,12 +149,12 @@ class Layout(object):
 
         # Validate if width and height is exceeding its parent's available space
 
-        if self.width > self.source.parent.width - self.x:
+        if self.width > self.source.parent.width - self.x - (self.source.parent.border.ACTIVATED * 2):
             raise ValueError(
-                f"width({self.width}) cannot exceed the parent's available width(from y({self.y}) is {self.source.parent.width - self.x}))"
+                f"width({self.width}) cannot exceed the parent's available width(from y({self.y}) is {self.source.parent.width - self.x - (self.source.parent.border.ACTIVATED * 2)}))"
             )
 
-        if self.height > self.source.parent.height - self.y:
+        if self.height > self.source.parent.height - self.y - (self.source.parent.border.ACTIVATED * 2):
             raise ValueError(
-                f"height({self.height}) cannot exceed the parent's available height(from y({self.y}) is {self.source.parent.height - self.y}))"
+                f"height({self.height}) cannot exceed the parent's available height(from y({self.y}) is {self.source.parent.height - self.y - (self.source.parent.border.ACTIVATED * 2)}))"
             )

@@ -12,8 +12,8 @@ class Realm(object):
 
         parent: Type.Source = Screen(),
         coordinate: Type.Coordinate = (None, None), 
-        width: Optional[int] = None,
         height: Optional[int] = None,
+        width: Optional[int] = None,
         border: bool = False,
 
     ) -> None:
