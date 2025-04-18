@@ -1,7 +1,9 @@
+from curses import window
 from typing import Optional
 from .utilities import types as Type
 from .screen import Screen
 from .layout import Layout
+from .components import Border
 
 
 class Realm(object):
@@ -12,11 +14,16 @@ class Realm(object):
         coordinate: Type.Coordinate = (None, None), 
         width: Optional[int] = None,
         height: Optional[int] = None,
+        border: bool = False,
 
     ) -> None:
 
         self.parent = parent
         self.layout = Layout(self, coordinate, width, height)
+
+        self.border = Border(self, border)
+
+        self.realm: window
 
     # ---
 

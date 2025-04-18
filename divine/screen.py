@@ -1,6 +1,7 @@
 from curses import initscr, endwin
 from .utilities import types as Type 
 from .layout import Layout
+from .components import Border
 
 class Screen(object):
 
@@ -19,6 +20,8 @@ class Screen(object):
 
         self.height: int = self.layout.height
         self.width: int = self.layout.width
+
+        self.border = Border(self, False)
 
         # This may seem like redundated but they 
         # are useful. They really are ;)

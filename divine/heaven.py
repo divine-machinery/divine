@@ -11,6 +11,7 @@ class Heaven(Realm):
 
     def start(self) -> None:
         self.summon()
+        self.border.apply()
 
 
     def main(self) -> None:

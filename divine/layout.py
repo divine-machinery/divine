@@ -27,11 +27,15 @@ class Layout(object):
         if self.__y is None:
             return self.source.parent.begy
 
+        return self.__y
+
     @property
     def x(self) -> int:
 
         if self.__x is None:
             return self.source.parent.begx
+
+        return self.__x
 
     @property
     def coordinate(self) -> Type.Coordinate:
@@ -73,11 +77,15 @@ class Layout(object):
     @property
     def endy(self) -> int:
 
-        return self.height - 1
+        # border takes 2 lines, thus minus 2 if activated
+        # coordinate members always start at 0, thus minus 1
+        return self.height - (self.source.border.ACTIVATED * 2) - 1
 
     @property
     def endx(self) -> int:
 
-        return self.width - 1
+        # border takes 2 characters, thus minus 2 if activated
+        # coordinate members always start at 0, thus minus 1
+        return self.width - (self.source.border.ACTIVATED * 2) - 1
 
     # ---
