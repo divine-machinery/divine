@@ -27,10 +27,6 @@ class Screen(object):
         self.endy: int = self.layout.endy
         self.endx: int = self.layout.endx
 
-        # TODO: This should be removed once Realm 
-        # object is implemented
-        endwin()
-
     def __str__(self):
         return f"{self.__class__.__name__} {self.height}x{self.width} at {self.coordinate}"
 
