@@ -1,4 +1,4 @@
-from curses import initscr, endwin
+from curses import initscr
 from .utilities import types as Type 
 from .layout import Layout
 from .components import Border
@@ -7,7 +7,8 @@ class Screen(object):
 
     def __init__(self) -> None:
 
-        stdscr = initscr()
+        self.realm = stdscr = initscr()
+        self.parent = self
 
         self.layout = Layout(
             source = self,
