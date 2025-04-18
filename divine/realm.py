@@ -31,7 +31,7 @@ class Realm(object):
 
     @property
     def width(self) -> int:
-        return self.layout.height
+        return self.layout.width
 
 
     @property
