@@ -1,5 +1,6 @@
 from curses import initscr, endwin
 from .utilities import types as Type 
+from .layout import Layout
 
 class Screen(object):
 
@@ -7,17 +8,24 @@ class Screen(object):
 
         stdscr = initscr()
 
-        self.coordinate: Type.Coordinate = stdscr.getbegyx()
+        self.layout = Layout(
+            source = self,
+            coordinate = stdscr.getbegyx(),
+            height = stdscr.getmaxyx()[0],
+            width = stdscr.getmaxyx()[1],
+        )
 
-        self.height: int = stdscr.getmaxyx()[0]
-        self.width: int = stdscr.getmaxyx()[1]
+        self.coordinate: Type.Coordinate = self.layout.coordinate
+
+        self.height: int = self.layout.height
+        self.width: int = self.layout.width
 
         # This may seem like redundated but they 
         # are useful. They really are ;)
-        self.begy: int = 0
-        self.begx: int = 0
-        self.endy: int = self.height - 1
-        self.endx: int = self.width - 1
+        self.begy: int = self.layout.begy
+        self.begx: int = self.layout.begy
+        self.endy: int = self.layout.endy
+        self.endx: int = self.layout.endx
 
         # TODO: This should be removed once Realm 
         # object is implemented
