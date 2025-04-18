@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, Tuple
 from .utilities import types as Type
 
 
@@ -38,7 +38,7 @@ class Layout(object):
         return self.__x
 
     @property
-    def coordinate(self) -> Type.Coordinate:
+    def coordinate(self) -> Tuple[int, int]:
 
         return (self.y, self.x)
 
