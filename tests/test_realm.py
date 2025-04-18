@@ -12,14 +12,14 @@ try:
 
     print() # ---
 
-    print(f"Coordinate: {realm.layout.coordinate}")
-    print(f"Height: {realm.layout.height}")
-    print(f"Width: {realm.layout.width}")
+    print(f"Coordinate: {realm.coordinate}")
+    print(f"Height: {realm.height}")
+    print(f"Width: {realm.width}")
 
     print() # ---
 
-    print(f"Beginning Coordinates: ({realm.layout.begy}, {realm.layout.begx})")
-    print(f"Ending Coordinates: ({realm.layout.endy}, {realm.layout.endx})")
+    print(f"Beginning Coordinates: ({realm.begy}, {realm.begx})")
+    print(f"Ending Coordinates: ({realm.endy}, {realm.endx})")
 
     print() # ---
 

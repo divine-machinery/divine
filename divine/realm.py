@@ -18,3 +18,42 @@ class Realm(object):
         self.parent = parent
         self.layout = Layout(self, coordinate, width, height)
 
+    # ---
+
+    @property
+    def coordinate(self) -> Type.Coordinate:
+        return self.layout.coordinate
+
+
+    @property
+    def height(self) -> int:
+        return self.layout.height
+
+    @property
+    def width(self) -> int:
+        return self.layout.height
+
+
+    @property
+    def begy(self) -> int:
+        return self.layout.begy
+
+    @property
+    def begx(self) -> int:
+        return self.layout.begx
+
+    @property
+    def endy(self) -> int:
+        return self.layout.endy
+
+    @property
+    def endx(self) -> int:
+        return self.layout.endx
+
+    # ---
+
+    def __str__(self):
+        return f"{self.__class__.__name__} {self.height}x{self.width} at {self.coordinate}"
+
+    def __repr__(self):
+        return f"<{self.__class__.__name__} (x:[{self.begy}..{self.endy}], y:[{self.begx}..{self.endx}]) ({self.height}x{self.width})>"
