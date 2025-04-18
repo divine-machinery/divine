@@ -4,6 +4,7 @@ from divine import Screen
 try:
 
     screen = Screen()
+    endwin()
 
     print() # ---
 
@@ -24,5 +25,4 @@ try:
     print() # ---
 
 except Exception as error:
-    endwin()
     raise error

@@ -4,6 +4,7 @@ from divine import Realm
 try:
 
     realm = Realm()
+    endwin()
 
     print() # ---
 
