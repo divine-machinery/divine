@@ -135,7 +135,7 @@ class Layout(object):
         return (self.orgx, self.orgy)
 
 
-    def validate(self, mode=Literal['debug', 'validate']) -> None:
+    def validate(self, mode: Literal['debug', 'validate']) -> None:
 
         # Validate if coordinate is not less than its parent's ending coordiante
 

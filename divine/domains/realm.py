@@ -98,7 +98,7 @@ class Realm(object):
 
     @property
     def orgx(self) -> int:
-        return self.layout.orgy
+        return self.layout.orgx
 
     # ---
 

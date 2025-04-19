@@ -31,7 +31,7 @@ class Screen(object):
         # This may seem like redundated but they 
         # are useful. They really are ;)
         self.begy: int = self.layout.begy
-        self.begx: int = self.layout.begy
+        self.begx: int = self.layout.begx
         self.endy: int = self.layout.endy
         self.endx: int = self.layout.endx
 
