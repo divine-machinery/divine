@@ -38,6 +38,23 @@ class Realm(object):
     def coordinate(self, value: Type.Coordinate):
         self.layout.coordinate = value
 
+
+    @property
+    def y(self) -> int:
+        return self.layout.y
+
+    @y.setter
+    def y(self, value: int):
+        self.layout.y = value
+
+    @property
+    def x(self) -> int:
+        return self.layout.x
+
+    @x.setter
+    def x(self, value: int):
+        self.layout.x = value
+
     # ---
 
     @property

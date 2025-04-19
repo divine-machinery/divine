@@ -9,7 +9,7 @@ class Heaven(Realm):
 
     def summon(self) -> None:
 
-        self.realm: window = newwin(self.height, self.width, self.coordinate[0], self.coordinate[1])
+        self.realm: window = newwin(self.height, self.width, self.y, self.x)
 
 
     def start(self) -> None:

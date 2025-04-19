@@ -29,6 +29,11 @@ class Layout(object):
 
         return self.__y
 
+    @y.setter
+    def y(self, value: int):
+        self.__y = value
+
+
     @property
     def x(self) -> int:
 
@@ -36,6 +41,11 @@ class Layout(object):
             return self.source.parent.begx
 
         return self.__x
+
+    @x.setter
+    def x(self, value: int):
+        self.__x = value
+
 
     @property
     def coordinate(self) -> Type.Coordinate:

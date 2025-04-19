@@ -3,8 +3,8 @@ from divine import Heaven
 class MainMenu(Heaven):
 
     def styles(self):
-        self.coordinate = (self.parent.height - 3, None)
         self.height = 3
+        self.y = self.parent.height - self.height
 
     def main(self):
         self.realm.addstr(1, 1, "Hello, World!")
