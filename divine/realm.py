@@ -1,5 +1,5 @@
 from curses import window
-from typing import Optional, Tuple
+from typing import Optional
 from .utilities import types as Type
 from .screen import Screen
 from .layout import Layout
@@ -31,18 +31,33 @@ class Realm(object):
     # ---
 
     @property
-    def coordinate(self) -> Tuple[int, int]:
+    def coordinate(self) -> Type.Coordinate:
         return self.layout.coordinate
 
+    @coordinate.setter
+    def coordinate(self, value: Type.Coordinate):
+        self.layout.coordinate = value
+
+    # ---
 
     @property
     def height(self) -> int:
         return self.layout.height
 
+    @height.setter
+    def height(self, value: int):
+        self.layout.height = value
+
+
     @property
     def width(self) -> int:
         return self.layout.width
 
+    @width.setter
+    def width(self, value: int):
+        self.layout.width = value
+
+    # ---
 
     @property
     def begy(self) -> int:

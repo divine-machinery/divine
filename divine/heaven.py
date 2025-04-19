@@ -4,12 +4,16 @@ from .realm import Realm
 
 class Heaven(Realm):
 
+    def styles(self) -> None:
+        ...
+
     def summon(self) -> None:
 
         self.realm: window = newwin(self.height, self.width, self.coordinate[0], self.coordinate[1])
 
 
     def start(self) -> None:
+        self.styles()
         self.layout.validate()
         self.summon()
         self.border.apply()

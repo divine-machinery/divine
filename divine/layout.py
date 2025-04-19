@@ -1,4 +1,4 @@
-from typing import Optional, Tuple, Literal
+from typing import Optional, Literal
 from .utilities import types as Type
 
 
@@ -38,9 +38,20 @@ class Layout(object):
         return self.__x
 
     @property
-    def coordinate(self) -> Tuple[int, int]:
+    def coordinate(self) -> Type.Coordinate:
+
+        # Even though self.y and self.x always return int type, mypy is not
+        # happy for some reason..
+        # Incompatible types in assignment (expression has type "tuple[int | None, int | None]", variable has type "tuple[int, int]")
+
+        # Happy wife, happy life. 
+        # I guess..
 
         return (self.y, self.x)
+
+    @coordinate.setter
+    def coordinate(self, value: Type.Coordinate):
+        self.__y, self.__x = value
 
     # ---
 
@@ -52,6 +63,11 @@ class Layout(object):
 
         return self.__height
 
+    @height.setter
+    def height(self, value: int):
+        self.__height = value
+
+
     @property
     def width(self) -> int:
 
@@ -59,6 +75,10 @@ class Layout(object):
             return self.source.parent.width - self.x - self.source.parent.border.ACTIVATED * 2
 
         return self.__width
+
+    @width.setter
+    def width(self, value: int):
+        self.__width = value
 
     # ---
 
