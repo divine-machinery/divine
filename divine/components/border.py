@@ -5,7 +5,7 @@ class Border(object):
 
     def __init__(self,
 
-        parent: Type.Source,
+        parent: Type.Domain,
         activate: bool,
 
     ) -> None:

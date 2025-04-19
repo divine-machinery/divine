@@ -5,4 +5,4 @@ if TYPE_CHECKING:
     from ..domains import Realm
 
 Coordinate = Tuple[Optional[int], Optional[int]]
-Source = Union['Screen', 'Realm']
+Domain = Union['Screen', 'Realm']

@@ -6,7 +6,7 @@ class Layout(object):
 
     def __init__(self,
 
-        source: Type.Source,
+        source: Type.Domain,
         coordinate: Type.Coordinate,
         height: Optional[int],
         width: Optional[int],

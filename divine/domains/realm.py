@@ -10,7 +10,7 @@ class Realm(object):
 
     def __init__(self,
 
-        parent: Type.Source = Screen(),
+        parent: Type.Domain = Screen(),
         coordinate: Type.Coordinate = (None, None), 
         height: Optional[int] = None,
         width: Optional[int] = None,
