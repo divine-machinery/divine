@@ -120,6 +120,21 @@ class Layout(object):
 
     # ---
 
+    # Orginal coordiante on screen
+
+    @property
+    def orgy(self) -> int:
+        return self.source.realm.getbegyx()[0]
+
+    @property
+    def orgx(self) -> int:
+        return self.source.realm.getbegyx()[1]
+
+    @property
+    def origin(self) -> Type.Coordinate:
+        return (self.orgx, self.orgy)
+
+
     def validate(self, mode=Literal['debug', 'validate']) -> None:
 
         # Validate if coordinate is not less than its parent's ending coordiante

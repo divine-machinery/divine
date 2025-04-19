@@ -92,10 +92,18 @@ class Realm(object):
     def endx(self) -> int:
         return self.layout.endx
 
+    @property
+    def orgy(self) -> int:
+        return self.layout.orgy
+
+    @property
+    def orgx(self) -> int:
+        return self.layout.orgy
+
     # ---
 
     def __str__(self):
         return f"{self.__class__.__name__} {self.height}x{self.width} at {self.coordinate}"
 
     def __repr__(self):
-        return f"<{self.__class__.__name__} (x:[{self.begy}..{self.endy}], y:[{self.begx}..{self.endx}]) ({self.height}x{self.width})>"
+        return f"<{self.__class__.__name__} (x:[{self.begy}..{self.endy}], y:[{self.begx}..{self.endx}]) ({self.height}x{self.width}) at {self.coordinate}>"

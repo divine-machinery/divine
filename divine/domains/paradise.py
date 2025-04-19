@@ -9,7 +9,7 @@ class Paradise(Realm):
         self.realm = self.parent.realm.subpad(
             self.height, 
             self.width, 
-            self.coordinate[0] + self.parent.coordinate[0] + self.parent.border.ACTIVATED, 
-            self.coordinate[1] + self.parent.coordinate[1] + self.parent.border.ACTIVATED
+            self.y + self.parent.border.ACTIVATED + self.parent.orgy, # I had to pull this shit 
+            self.x + self.parent.border.ACTIVATED + self.parent.orgx,
         )
         self.border.apply()
