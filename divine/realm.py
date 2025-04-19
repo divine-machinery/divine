@@ -15,8 +15,11 @@ class Realm(object):
         height: Optional[int] = None,
         width: Optional[int] = None,
         border: bool = False,
+        name: Optional[str] = None,
 
     ) -> None:
+
+        self.name = f"{self.__class__.__name__}" if name is None else name
 
         self.parent = parent
         self.layout = Layout(self, coordinate, height, width)

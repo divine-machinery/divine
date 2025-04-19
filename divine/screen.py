@@ -7,6 +7,8 @@ class Screen(object):
 
     def __init__(self) -> None:
 
+        self.name = 'Screen'
+
         self.realm = stdscr = initscr()
 
         # self parenting on steroids > <
