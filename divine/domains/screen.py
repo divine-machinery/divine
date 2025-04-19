@@ -1,7 +1,7 @@
 from curses import initscr
-from .utilities import types as Type 
-from .layout import Layout
-from .components import Border
+from ..utilities import types as Type 
+from ..layout import Layout
+from ..components import Border
 
 class Screen(object):
 

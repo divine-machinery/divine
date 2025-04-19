@@ -1,9 +1,9 @@
 from curses import window
 from typing import Optional
-from .utilities import types as Type
+from ..utilities import types as Type
 from .screen import Screen
-from .layout import Layout
-from .components import Border
+from ..layout import Layout
+from ..components import Border
 
 
 class Realm(object):
