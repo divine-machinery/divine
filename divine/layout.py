@@ -96,13 +96,13 @@ class Layout(object):
 
         if self.x >= self.source.parent.endx:
             raise ValueError(
-                f"x({self.x}) must be less than the parent's ending coordinate(y: {self.source.parent.endy}, x: {self.source.parent.endx})"
+                f"x({self.x}) of {self.source.name} must be less than the ending x({self.source.parent.endx}) of its parent, {self.source.parent.name}."
             )
 
 
         if self.y >= self.source.parent.endy:
             raise ValueError(
-                f"y({self.y}) must be less than the parent's ending coordinate(y: {self.source.parent.endy}, x: {self.source.parent.endx})"
+                f"y({self.y}) of {self.source.name} must be less than the ending y({self.source.parent.endy}) of its parent, {self.source.parent.name}."
             )
 
 
@@ -110,12 +110,12 @@ class Layout(object):
 
         if self.x < self.source.parent.begx:
             raise ValueError(
-                f"x({self.x}) cannot less than the parent's beginning coordinate(y: {self.source.parent.endy}, x: {self.source.parent.endx})"
+                f"x({self.x}) of {self.source.name} cannot less than the beginning x({self.source.parent.endx}) of its parent, {self.source.parent.name}."
             )
 
         if self.y < self.source.parent.begy:
             raise ValueError(
-                f"y({self.y}) cannot less than the parent's beginning coordinate(y: {self.source.parent.endy}, x: {self.source.parent.endx})"
+                f"y({self.y}) of {self.source.name} cannot less than the beginning y({self.source.parent.endy}) of its parent, {self.source.parent.name}."
             )
 
 
@@ -138,12 +138,12 @@ class Layout(object):
 
         if self.width < self.source.parent.begy:
             raise ValueError(
-                f"width({self.width}) cannot be less than the parent's beginning coordinate(x: {self.source.parent.begy}, y: {self.source.parent.begx})"
+                f"width({self.width}) of {self.source.name} cannot be less than the beginning x({self.source.parent.begx}) of its parent, {self.source.parent.name}."
             )
 
         if self.height < self.source.parent.begy:
             raise ValueError(
-                f"height({self.height}) cannot be less than the parent's beginning coordinate(x: {self.source.parent.begy}, y: {self.source.parent.begx})"
+                f"width({self.height}) of {self.source.name} cannot be less than the beginning y({self.source.parent.begy}) of its parent, {self.source.parent.name}."
             )
 
 
@@ -151,10 +151,10 @@ class Layout(object):
 
         if self.width > self.source.parent.width - self.x - (self.source.parent.border.ACTIVATED * 2):
             raise ValueError(
-                f"width({self.width}) cannot exceed the parent's available width(from y({self.y}) is {self.source.parent.width - self.x - (self.source.parent.border.ACTIVATED * 2)}))"
+                f"width({self.width}) of {self.source.name} cannot exceed the available width({self.source.parent.width - self.x - (self.source.parent.border.ACTIVATED * 2)}) of its parent, {self.source.parent.name}."
             )
 
         if self.height > self.source.parent.height - self.y - (self.source.parent.border.ACTIVATED * 2):
             raise ValueError(
-                f"height({self.height}) cannot exceed the parent's available height(from y({self.y}) is {self.source.parent.height - self.y - (self.source.parent.border.ACTIVATED * 2)}))"
+                f"height({self.height}) of {self.source.name} cannot exceed the available height({self.source.parent.height - self.y - (self.source.parent.border.ACTIVATED * 2)}) of its parent, {self.source.parent.name}."
             )
