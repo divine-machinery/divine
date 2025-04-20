@@ -5,20 +5,20 @@ from ..components import Border
 
 class Screen(object):
 
-    def __init__(self) -> None:
+    def __init__(self, source = initscr()) -> None:
 
         self.name = 'Screen'
 
-        self.realm = stdscr = initscr()
+        self.realm = source
 
         # self parenting on steroids > <
         self.parent = self
 
         self.layout = Layout(
             source = self,
-            coordinate = stdscr.getbegyx(),
-            height = stdscr.getmaxyx()[0],
-            width = stdscr.getmaxyx()[1],
+            coordinate = self.realm.getbegyx(),
+            height = self.realm.getmaxyx()[0],
+            width = self.realm.getmaxyx()[1],
         )
 
         self.coordinate: Type.Coordinate = self.layout.coordinate
@@ -34,6 +34,8 @@ class Screen(object):
         self.begx: int = self.layout.begx
         self.endy: int = self.layout.endy
         self.endx: int = self.layout.endx
+        self.orgy: int = 0
+        self.orgx: int = 0
 
     def __str__(self):
         return f"{self.__class__.__name__} {self.height}x{self.width} at {self.coordinate}"

@@ -124,11 +124,11 @@ class Layout(object):
 
     @property
     def orgy(self) -> int:
-        return self.source.realm.getbegyx()[0] if isdomain(self.source) else 0
+        return self.source.realm.getbegyx()[0] if isdomain(self.source) else 0 # self.source.parent.orgy + self.source.y
 
     @property
     def orgx(self) -> int:
-        return self.source.realm.getbegyx()[1] if isdomain(self.source) else 0
+        return self.source.realm.getbegyx()[1] if isdomain(self.source) else 0 # self.source.parent.orgx + self.source.x
 
     @property
     def origin(self) -> Type.Coordinate:
@@ -155,12 +155,12 @@ class Layout(object):
 
         if self.x < self.source.parent.begx:
             raise ValueError(
-                f"x({self.x}) of {self.source.name} cannot less than the beginning x({self.source.parent.endx}) of its parent, {self.source.parent.name}."
+                f"x({self.x}) of {self.source.name} cannot less than the beginning x({self.source.parent.begx}) of its parent, {self.source.parent.name}."
             )
 
         if self.y < self.source.parent.begy:
             raise ValueError(
-                f"y({self.y}) of {self.source.name} cannot less than the beginning y({self.source.parent.endy}) of its parent, {self.source.parent.name}."
+                f"y({self.y}) of {self.source.name} cannot less than the beginning y({self.source.parent.begy}) of its parent, {self.source.parent.name}."
             )
 
 
@@ -188,7 +188,7 @@ class Layout(object):
 
         if self.height < self.source.parent.begy:
             raise ValueError(
-                f"width({self.height}) of {self.source.name} cannot be less than the beginning y({self.source.parent.begy}) of its parent, {self.source.parent.name}."
+                f"height({self.height}) of {self.source.name} cannot be less than the beginning y({self.source.parent.begy}) of its parent, {self.source.parent.name}."
             )
 
 
