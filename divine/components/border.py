@@ -1,11 +1,12 @@
 from ..utilities import types as Type
+from ..utilities import isdomain
 
 
 class Border(object):
 
     def __init__(self,
 
-        parent: Type.Domain,
+        parent: Type.Entities,
         activate: bool,
 
     ) -> None:
@@ -18,5 +19,5 @@ class Border(object):
         """ Draw a border if ACTIVATED is True. Otherwise, do nothing.
         """
 
-        if self.ACTIVATED:
+        if self.ACTIVATED and isdomain(self.parent):
             self.parent.realm.border()

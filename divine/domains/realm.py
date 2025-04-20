@@ -3,7 +3,7 @@ from typing import Optional
 from ..utilities import types as Type
 from .screen import Screen
 from ..layout import Layout
-from ..components import Border
+from ..components import Border, Write
 
 
 class Realm(object):
@@ -27,6 +27,19 @@ class Realm(object):
         self.border = Border(self, border)
 
         self.realm: window
+
+    # ---
+
+    def write(self,
+
+        text: str = '',
+        y: int = 0,
+        x: int = 0,
+
+    ) -> None:
+
+        WriteObject = Write(self, (y, x), text)
+        WriteObject.render()
 
     # ---
 

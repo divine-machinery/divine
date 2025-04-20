@@ -1,12 +1,12 @@
 from typing import Optional, Literal
-from .utilities import types as Type
+from .utilities import types as Type, isdomain
 
 
 class Layout(object):
 
     def __init__(self,
 
-        source: Type.Domain,
+        source: Type.Entities,
         coordinate: Type.Coordinate,
         height: Optional[int],
         width: Optional[int],
@@ -124,11 +124,11 @@ class Layout(object):
 
     @property
     def orgy(self) -> int:
-        return self.source.realm.getbegyx()[0]
+        return self.source.realm.getbegyx()[0] if isdomain(self.source) else 0
 
     @property
     def orgx(self) -> int:
-        return self.source.realm.getbegyx()[1]
+        return self.source.realm.getbegyx()[1] if isdomain(self.source) else 0
 
     @property
     def origin(self) -> Type.Coordinate:
