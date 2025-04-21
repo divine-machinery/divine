@@ -23,9 +23,8 @@ class Write(object):
 
         y = self.parent.cursor.y if y is None else y
         x = 0 if x is None else x
-        width: int = len(self.string) if len(self.string) < self.parent.endx else self.parent.endx - len(self.string)
 
-        self.layout: Layout = Layout(self, (y, x), width, None)
+        self.layout: Layout = Layout(self, (y, x), None, None)
 
         self.name: str = name
         self.border: Border = Border(self, border)
