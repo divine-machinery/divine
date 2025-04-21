@@ -4,6 +4,7 @@ from ..utilities import types as Type
 from .screen import Screen
 from ..layout import Layout
 from ..components import Border, Write
+from ..organs import Cursor
 
 
 class Realm(object):
@@ -28,17 +29,19 @@ class Realm(object):
 
         self.realm: window
 
+        self.cursor = Cursor(self)
+
     # ---
 
     def write(self,
 
         text: str = '',
-        y: int = 0,
-        x: int = 0,
+        y: Type.CoordinateMember = None,
+        x: Type.CoordinateMember = None,
 
     ) -> None:
 
-        WriteObject = Write(self, (y, x), text)
+        WriteObject = Write(self, text, y, x)
         WriteObject.render()
 
     # ---

@@ -1,4 +1,4 @@
-from typing import Tuple, Optional, Union, TYPE_CHECKING
+from typing import Tuple, Optional, Union, Literal, TYPE_CHECKING
 
 if TYPE_CHECKING:
 
@@ -7,6 +7,8 @@ if TYPE_CHECKING:
 
     from ..components import Write
 
+Axis = Literal['y', 'x']
+CoordinateMember = Optional[int]
 Coordinate = Tuple[Optional[int], Optional[int]]
 Domain = Union['Screen', 'Realm']
 Component = Union['Write']

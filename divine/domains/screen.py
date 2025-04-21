@@ -2,6 +2,7 @@ from curses import initscr
 from ..utilities import types as Type 
 from ..layout import Layout
 from ..components import Border
+from ..organs import Cursor
 
 class Screen(object):
 
@@ -13,6 +14,8 @@ class Screen(object):
 
         # self parenting on steroids > <
         self.parent = self
+
+        self.cursor = Cursor(self)
 
         self.layout = Layout(
             source = self,
