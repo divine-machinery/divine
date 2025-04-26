@@ -3,8 +3,8 @@ from typing import Optional
 from ..utilities import types as Type
 from .screen import Screen
 from ..layout import Layout
-from ..components import Border, Write
-from ..organs import Cursor
+from ..components import Write
+from ..organs import Border, Cursor
 
 
 class Realm(object):
@@ -19,6 +19,39 @@ class Realm(object):
         name: Optional[str] = None,
 
     ) -> None:
+
+        """
+
+        This object can be used by either inheriting it or any other such forms, mainly to 
+        create Template Domains. Pre-implemented Layouts and components such as Write, Border.
+
+        Parameters:
+
+            parent: 
+            Root Domain oject, or parent for this domain to use as reference, default=Screen()
+            
+            coordinate: 
+            The coordinate in format of (y, x) to place the top left corner of this domain, 
+            None values will be replaced by the coordinate of Root Domain, parent, optional, 
+            default=None
+            
+            height: 
+            The numbers of lines expanding from the given coordinate, if None value was passed, 
+            inheirt the height of parent, Root Domain, optional, default=None
+            
+            width: 
+            The numbers of colons(characters) expanding from the given coordinate, if None value 
+            was passed, inheirt the width of parent, Root Domain, optional, default=None
+
+            border:
+            If passed True, insert the border characters around the coordinates begy, begx, endy, 
+            endx, otherwise do nothing, option, default=False
+
+            name:
+            The string representation of this Realm, if None was passed, use the class name, 
+            optional, default=None
+
+        """
 
         self.name = f"{self.__class__.__name__}" if name is None else name
 
@@ -41,7 +74,25 @@ class Realm(object):
 
     ) -> None:
 
-        WriteObject = Write(self, text, y, x)
+        """
+
+        Prints a text on this(self) Domain on a certain coordinates. Line-break will be occured
+        once a character from the text hits the endx of this(self) Domain. Move the cursor to
+        the end of the text afterward. 
+
+        Parameters
+
+        text:
+        The text that is desired to be printed, optional, default=''
+
+        y, x:
+        The coordinate that will be used as the placement coordinate for the first character in 
+        the text. If passed None(s), use the cursor coordiante of this(self) Domain. optional, 
+        default=None, None
+
+        """
+
+        WriteObject = Write(self, str(text), y, x)
         WriteObject.render()
 
     # ---
@@ -119,7 +170,15 @@ class Realm(object):
     # ---
 
     def __str__(self):
-        return f"{self.__class__.__name__} {self.height}x{self.width} at {self.coordinate}"
+        return (
+            f"{self.__class__.__name__} " \
+            f"{self.height}x{self.width}" \
+            f"at {self.coordinate}"
+        )
 
     def __repr__(self):
-        return f"<{self.__class__.__name__} (x:[{self.begy}..{self.endy}], y:[{self.begx}..{self.endx}]) ({self.height}x{self.width}) at {self.coordinate}>"
+        return ( 
+            f"<{self.__class__.__name__}" \
+            f"(y:[{self.begy}..{self.endy}], x:[{self.begx}..{self.endx}])" \
+            f"({self.height}x{self.width}) at ({self.orgy}, {self.orgx})>"
+        )

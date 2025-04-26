@@ -6,12 +6,22 @@ class Layout(object):
 
     def __init__(self,
 
-        source: Type.Entities,
+        source: Type.Entitie,
         coordinate: Type.Coordinate,
         height: Optional[int],
         width: Optional[int],
 
     ) -> None:
+
+        """
+
+        A palette-like object that can store layouts of every Entitie.
+ 
+        Parameters:
+
+        Source
+        
+        """
 
         self.source = source
 

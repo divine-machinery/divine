@@ -5,8 +5,8 @@ class Cursor(object):
     def __init__(self, source: Type.Domain):
 
         self.source = source
-        self.__y = 0
-        self.__x = 0
+        self.__y = 0 + self.source.border.ACTIVATED
+        self.__x = 0 + self.source.border.ACTIVATED
 
     # -----
 
@@ -31,20 +31,15 @@ class Cursor(object):
 
         self.validate(value, 'x')
 
-        if value > self.source.endx:
-            self.__x = 0
-            self.__y += 1
-
-        else:
-            self.__x = value
+        self.__x = value
 
     # -----
 
     def render(self):
 
         self.source.realm.move(
-            self.__y,
-            self.x + 1
+            self.y,
+            self.x
         )
 
     def validate(self, value, axis: Type.Axis):
@@ -55,3 +50,11 @@ class Cursor(object):
 
         # validate cursor placement
         # TODO
+
+    def reset(self, axis: Type.Axis):
+
+        match axis:
+            case 'y':
+                self.__y = 0 + self.source.border.ACTIVATED
+            case 'x':
+                self.__x = 0 + self.source.border.ACTIVATED

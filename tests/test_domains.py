@@ -55,6 +55,9 @@ def test_heaven_endx(heaven):
 def test_heaven_orgy(heaven):
     assert heaven.orgy == 2
 
+def test_heaven_orgx(heaven):
+    assert heaven.orgx == 2
+
 # -----
 
 # =============== Paradise ===============
@@ -89,6 +92,11 @@ def test_paradise_endx(heaven):
     assert heaven.paradise.endx == 94
 
 def test_paradise_orgy(heaven):
+    heaven.paradise.summon()
     assert heaven.paradise.orgy == 5
+
+def test_paradise_orgx(heaven):
+    heaven.paradise.summon()
+    assert heaven.paradise.orgx == 7
 
 # -----

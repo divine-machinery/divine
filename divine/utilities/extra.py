@@ -7,5 +7,5 @@ if TYPE_CHECKING:
 # So apparently TypeGuard is for type predicting functions
 # It is a bool at runtime according to the docstrings
 
-def isdomain(source: Type.Entities) -> TypeGuard['Realm']:
+def isdomain(source: Type.Entitie) -> TypeGuard['Realm']:
     return hasattr(source, 'realm')
