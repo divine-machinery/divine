@@ -1,8 +1,8 @@
 # domain
 
-from . import types as Type
+from .. import types as Type
 from typing import Optional
-from . import Layout
+from .. import Layout
 
 
 class Heaven(object):
