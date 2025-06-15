@@ -10,14 +10,36 @@ endwin()
 # maintained by Layout objects. STDSCR is always constant.
 class STDSCR(object):
 
-    y, x = terminal.getbegyx()
-    height, width = terminal.getmaxyx()
+    def __init__(self) -> None:
+
+        self.freezed = False
+        self.y, self.x = terminal.getbegyx()
+        self.height, self.width = terminal.getmaxyx()
+        self.freezed = True
+
+    def __getattribute__(self, name):
+
+        # self parenting >w<
+        if name == 'parent':
+            return self
+
+        return super().__getattribute__(name)
+
+    def __setattr__(self, name, value):            
+
+        if name in ('y', 'x', 'height', 'width') and self.freezed:
+            raise AttributeError(f"Freezed Domain, unable to set {name} to {value}.")
+
+        return super().__setattr__(name, value)
+
+
+def main() -> None:
+
+    Terminal = STDSCR()
+
+    print(Terminal.parent)
+    print(f"Terminal<{Terminal.height}x{Terminal.width} at ({Terminal.y}, {Terminal.x})>")
 
 
 if __name__ == '__main__':
-
-    print(f"Terminal<{STDSCR.height}x{STDSCR.width} at ({STDSCR.y}, {STDSCR.x})>")
-
-    # to be fixed later
-    # this behaviour shouldn't be allowed
-    STDSCR.height = 1000000
+    main()
