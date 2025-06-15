@@ -1,4 +1,5 @@
 from curses import initscr, endwin
+from ..utilities import types as Type
 
 # initscr enter some kind of mode
 terminal = initscr()
@@ -16,6 +17,8 @@ class STDSCR(object):
         self.y, self.x = terminal.getbegyx()
         self.height, self.width = terminal.getmaxyx()
         self.freezed = True
+
+        self.parent: Type.Domain
 
     def __getattribute__(self, name):
 
