@@ -2,7 +2,7 @@ from ..utilities import types as Type
 from . import STDSCR
 from ..layout import Layout
 from typing import Tuple
-from curses import window, newwin
+from curses import window, newwin, endwin
 
 
 class Realm(object):
@@ -37,6 +37,27 @@ class Realm(object):
         """
 
         self.realm = newwin(self.height, self.width, self.y, self.x)
+
+
+    def main(self) -> None:
+        """ This is where your application logics go.
+        """
+
+    def terminate(self) -> None:
+        """ Same as doing curses.endwin() """
+
+        endwin()
+
+
+    def run(self) -> None:
+        """ Call this when you intend to run your application logics written 
+            in main(). By default, this method will call summon(), main(), 
+            and terminate() in sequence.
+        """
+        
+        self.summon()
+        self.main()
+        self.terminate()
 
 
     # ===== lazy getters and setters or whatever it is =====
