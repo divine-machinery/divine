@@ -1,4 +1,4 @@
 from .STDSCR import STDSCR
-from .heaven import Heaven
+from .realm import Realm
 
-__all__ = ['STDSCR', 'Heaven']
+__all__ = ['STDSCR', 'Realm']
