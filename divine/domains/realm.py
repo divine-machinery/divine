@@ -2,6 +2,7 @@ from ..utilities import types as Type
 from . import STDSCR
 from ..layout import Layout
 from typing import Tuple
+from curses import window, newwin
 
 
 class Realm(object):
@@ -20,6 +21,22 @@ class Realm(object):
             coordinate = (y, x),
             width = width, height = height
         )
+
+        self.realm: window
+
+
+    def summon(self) -> None:
+        """ Create a window object and store it in this instance's ".realm".
+        
+        Any Python curses' window object methods are eligible to use as if 
+        they were the same(They are). 
+        
+        curses' initscr() might be required to call first, at least for this 
+        model. curses' endwin() is required to call as a clean up process after.
+
+        """
+
+        self.realm = newwin(self.height, self.width, self.y, self.x)
 
 
     # ===== lazy getters and setters or whatever it is =====
