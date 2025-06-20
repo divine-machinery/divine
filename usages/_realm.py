@@ -1,10 +1,12 @@
-# raw usage
-
 from divine import Realm
 
 def main() -> None:
 
     class Window(Realm):
+
+        def styles(self) -> None:
+            self.y = 10
+            self.height = 10
 
         def main(self) -> None:
             self.realm.box()

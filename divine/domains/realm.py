@@ -27,7 +27,9 @@ class Realm(object):
 
     def summon(self) -> None:
         """ Create a window object and store it in this instance's ".realm".
-        
+
+        This method will call styles() first, then create the desired object.
+
         Any Python curses' window object methods are eligible to use as if 
         they were the same(They are). 
         
@@ -36,7 +38,15 @@ class Realm(object):
 
         """
 
+        # user defined layouts will be applied first
+        self.styles()
+
+        # create a curses window object
         self.realm = newwin(self.height, self.width, self.y, self.x)
+
+    def styles(self) -> None:
+        """ This is where you pre-define the layouts you want.
+        """
 
 
     def main(self) -> None:
