@@ -23,7 +23,10 @@ class Realm(object):
         )
 
         self.realm: window
+        self.has_border: bool = False
 
+
+    # ===== cranking methods =====
 
     def summon(self) -> None:
         """ Create a window object and store it in this instance's ".realm".
@@ -44,6 +47,7 @@ class Realm(object):
         # create a curses window object
         self.realm = newwin(self.height, self.width, self.y, self.x)
 
+
     def styles(self) -> None:
         """ This is where you pre-define the layouts you want.
         """
@@ -52,6 +56,7 @@ class Realm(object):
     def main(self) -> None:
         """ This is where your application logics go.
         """
+
 
     def terminate(self) -> None:
         """ Same as doing curses.endwin() """
@@ -68,6 +73,30 @@ class Realm(object):
         self.summon()
         self.main()
         self.terminate()
+
+
+    # ===== operational methods =====
+
+    def fence(self, enable: bool = True) -> None:
+        """ Draw a border around the window object.
+
+        This method is an Operational Method
+        ====================================
+        Running this without calling summon() first will 
+        result in curses' error and put your terminal in 
+        a certain mode which is not usable at all. Reseting 
+        or restarting your terminal might help.
+        """
+
+        # TODO: Instead of relying on curses' original border() 
+        # method, manually draw the border for flexibility
+        if enable and not self.has_border:
+            self.realm.border()
+            self.has_border = True
+
+        elif not enable and self.has_border:
+            self.realm.border(" ", " ", " ", " ", " ", " ", " ", " ")
+            self.has_border = False
 
 
     # ===== lazy getters and setters or whatever it is =====
