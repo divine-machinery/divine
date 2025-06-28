@@ -1,6 +1,6 @@
 from ..utilities import types as Type
 from . import STDSCR
-from ..layout import Layout
+from ..organs import Layout, Attribute
 from typing import Tuple
 from curses import window, newwin, endwin
 
@@ -23,7 +23,7 @@ class Realm(object):
         )
 
         self.realm: window
-        self.has_border: bool = False
+        self.attribute = Attribute()
 
 
     # ===== cranking methods =====
@@ -90,13 +90,13 @@ class Realm(object):
 
         # TODO: Instead of relying on curses' original border() 
         # method, manually draw the border for flexibility
-        if enable and not self.has_border:
+        if enable and not self.attribute.border:
             self.realm.border()
-            self.has_border = True
+            self.attribute.border = True
 
-        elif not enable and self.has_border:
+        elif not enable and self.attribute.border:
             self.realm.border(" ", " ", " ", " ", " ", " ", " ", " ")
-            self.has_border = False
+            self.attribute.border = False
 
 
     # ===== lazy getters and setters or whatever it is =====

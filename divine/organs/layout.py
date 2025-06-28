@@ -1,4 +1,4 @@
-from .utilities import types as Type
+from ..utilities import types as Type
 from typing import Tuple
 
 
