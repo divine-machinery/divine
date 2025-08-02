@@ -1,7 +1,7 @@
 # customs
 
 tests/
-
+usages/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
